@@ -1,0 +1,396 @@
+<resources>
+    <string name="app_name">High-tech Electronic Menu</string>
+
+    <!-- Set -->
+    <string name="hotpot_id">9</string>
+    <string name="hotpot_name">Buffet lẩu</string>
+    <string name="hotpot_price">489.000đ</string>
+
+    <string name="hotpot_seafood_id">10</string>
+    <string name="hotpot_seafood_name">Buffet lẩu hải sản</string>
+    <string name="hotpot_seafood_price">599.000đ</string>
+
+    <string name="bbq_id">11</string>
+    <string name="bbq_name">Buffet nướng BBQ</string>
+    <string name="bbq_price">569.000đ</string>
+
+    <string name="sashimi_hasu_id">1</string>
+    <string name="sashimi_hasu_name">Buffet Sashimi Hasu</string>
+    <string name="sashimi_hasu_price">649.000đ</string>
+
+    <string name="sashimi_kiku_id">2</string>
+    <string name="sashimi_kiku_name">Buffet Sashimi Kiku</string>
+    <string name="sashimi_kiku_price">899.000đ</string>
+
+    <string name="sashimi_sakura_id">3</string>
+    <string name="sashimi_sakura_name">Buffet Sashimi Sakura</string>
+    <string name="sashimi_sakura_price">1.199.000đ</string>
+
+    <string name="sashimi_shinjuku_id">4</string>
+    <string name="sashimi_shinjuku_name">Buffet Sashimi Shinjuku</string>
+    <string name="sashimi_shinjuku_price">1.479.000đ</string>
+
+    <string name="sashimi_hokaido_id">8</string>
+    <string name="sashimi_hokaido_name">Buffet Sashimi Hokaido</string>
+    <string name="sashimi_hokaido_price">1.779.000đ</string>
+
+    <!-- Food -->
+    <!-- Appetizer -->
+    <string name="kimchi_baechu_name">Kimchi Baechu</string>
+    <string name="kimchi_baechu_shortDescription">Kim chi cải thảo</string>
+    <string name="kimchi_baechu_description"> </string>
+    <string name="kimchi_baechu_type">Appetizer</string>
+
+    <string name="chawanmushi_name">Chawanmushi</string>
+    <string name="chawanmushi_shortDescription">Trứng hấp hải sản và nấm kiểu Nhật</string>
+    <string name="chawanmushi_description">"Chawanmushi" là món trứng hấp truyền thống của Nhật Bản, được làm từ trứng gà đánh đều với nước dùng dashi, sau đó hấp chín mềm. Tên gọi "Chawan" nghĩa là bát, và "Mushi" có nghĩa là hấp, thể hiện phương pháp chế biến đặc trưng của món ăn này.</string>
+    <string name="chawanmushi_type">Appetizer</string>
+
+    <string name="miso_shiru_name">Miso Shiru</string>
+    <string name="miso_shiru_shortDescription">Súp Miso</string>
+    <string name="miso_shiru_description">"Miso" là tên của loại đậu lên men, nguyên liệu chính tạo nên nước dùng của món súp, còn "Shiru" có nghĩa là súp trong tiếng Nhật. Miso Shiru là món súp truyền thống của Nhật Bản, thường được ăn kèm với cơm, mang hương vị đậm đà, ấm áp và thanh mát.</string>
+    <string name="miso_shiru_type">Appetizer</string>
+
+    <string name="shio_ginnan_name">Shio Ginnan</string>
+    <string name="shio_ginnan_shortDescription">Bạch quả rang muối</string>
+    <string name="shio_ginnan_description">"Shio" nghĩa là muối, và "Ginnan" là tên gọi của bạch quả trong tiếng Nhật. Shio Ginnan là món bạch quả rang muối, một món ăn vặt phổ biến ở Nhật Bản, với hương vị thơm bùi và hơi mặn, thường được phục vụ trong các quán nhậu hoặc trong bữa ăn gia đình.</string>
+    <string name="shio_ginnan_type">Appetizer</string>
+
+    <string name="miso_poteto_name">Miso Poteto</string>
+    <string name="miso_poteto_shortDescription">Khoai tây chiên sốt miso</string>
+    <string name="miso_poteto_description">"Miso" là sốt miso, một gia vị đặc trưng của Nhật Bản, còn "Poteto" là từ mượn từ tiếng Anh, nghĩa là khoai tây. Miso Poteto là món khoai tây chiên giòn, ăn kèm với sốt miso đậm đà, mang đến sự kết hợp giữa hương vị bùi béo của khoai tây và vị mặn, umami đặc trưng của miso.</string>
+    <string name="miso_poteto_type">Appetizer</string>
+
+    <string name="bata_imo_name">Bata Imo</string>
+    <string name="bata_imo_shortDescription">Khoai lang chiên sốt bơ</string>
+    <string name="bata_imo_description">"Bata" là từ viết tắt của bơ (butter), và "Imo" nghĩa là khoai. Bata Imo là món khoai lang chiên giòn, phủ sốt bơ thơm ngon, mang đến sự kết hợp giữa vị ngọt tự nhiên của khoai lang và vị béo ngậy của bơ. Món ăn này thường được yêu thích vì hương vị vừa ngọt vừa mặn, dễ ăn.</string>
+    <string name="bata_imo_type">Appetizer</string>
+
+    <string name="kinu_tofu_name">Kinu Tofu</string>
+    <string name="kinu_tofu_shortDescription">Đậu nành lông Nhật</string>
+    <string name="kinu_tofu_description">"Kinu" có nghĩa là lụa, dùng để chỉ độ mịn màng và mềm mịn của đậu nành lông Nhật Bản, và "Tofu" là đậu hũ. Kinu Tofu là loại đậu hũ mịn, mượt, có kết cấu rất mềm và dễ tan, phổ biến trong ẩm thực Nhật Bản. Món ăn này có thể được chế biến theo nhiều cách, như trong súp, salad hoặc ăn kèm với các gia vị nhẹ nhàng.</string>
+    <string name="kinu_tofu_type">Appetizer</string>
+
+    <string name="kani_yuzu_sarada_name">Kani Yuzu Sarada</string>
+    <string name="kani_yuzu_sarada_shortDescription">Salad thanh cua xốt yuzu</string>
+    <string name="kani_yuzu_sarada_description">"Kani" là thanh cua trong tiếng Nhật, "Yuzu" là loại quả cam chanh đặc trưng của Nhật, và "Sarada" là từ mượn từ tiếng Anh, có nghĩa là salad. Kani Yuzu Sarada là món salad thanh cua với xốt yuzu, kết hợp giữa vị ngọt của cua và hương thơm chua nhẹ của yuzu, mang đến một trải nghiệm tươi mát và thanh tao.</string>
+    <string name="kani_yuzu_sarada_type">Appetizer</string>
+
+    <string name="maguro_sarada_name">Maguro Sarada</string>
+    <string name="maguro_sarada_shortDescription">Salad cá ngừ</string>
+    <string name="maguro_sarada_description">"Maguro" là cá ngừ trong tiếng Nhật, và "Sarada" là salad. Maguro Sarada là món salad cá ngừ, thường kết hợp với rau xanh tươi ngon và các loại gia vị nhẹ nhàng, mang lại sự hòa quyện giữa vị ngọt tự nhiên của cá ngừ và độ tươi mát của rau.</string>
+    <string name="maguro_sarada_type">Appetizer</string>
+
+    <string name="yuzu_tofu_sarada_name">Yuzu Tofu Sarada</string>
+    <string name="yuzu_tofu_sarada_shortDescription">Salad đậu phụ xốt yuzu</string>
+    <string name="yuzu_tofu_sarada_description">"Yuzu" là quả chanh Nhật, "Tofu" là đậu phụ, và "Sarada" là salad. Yuzu Tofu Sarada là món salad đậu phụ với xốt yuzu, kết hợp giữa độ mềm mịn của đậu phụ và hương vị chua nhẹ, thanh mát của yuzu, tạo nên một món ăn tươi mới và thanh tao.</string>
+    <string name="yuzu_tofu_sarada_type">Appetizer</string>
+
+    <string name="shinsuke_sausage_name">Shinsuke Sausage</string>
+    <string name="shinsuke_sausage_shortDescription">Xúc xích Shinsu</string>
+    <string name="shinsuke_sausage_description">"Shinsuke" là cách gọi xúc xích Shinsu, được đặt tên theo vùng Shinshu (tên cũ của tỉnh Nagano, Nhật Bản), nổi tiếng với các sản phẩm thịt chế biến truyền thống. Shinsuke Sausage là loại xúc xích thơm ngon, thường được làm từ thịt heo chất lượng cao, kết hợp với gia vị đặc trưng của vùng Shinshu, mang đến hương vị đậm đà, độc đáo và hấp dẫn.</string>
+    <string name="shinsuke_sausage_type">Appetizer</string>
+
+    <string name="unagi_no_chawanmushi_name">Unagi no Chawanmushi</string>
+    <string name="unagi_no_chawanmushi_shortDescription">Trứng hấp lươn Nhật Bản</string>
+    <string name="unagi_no_chawanmushi_description">"Chawanmushi" là món trứng hấp truyền thống của Nhật Bản, và "Unagi" là lươn. Unagi no Chawanmushi là sự kết hợp giữa trứng hấp mềm mịn và thịt lươn ngọt thơm, giàu dinh dưỡng. Món này được hấp trong chén sứ nhỏ, giữ nhiệt tốt và làm nổi bật hương vị tinh tế của các nguyên liệu.</string>
+    <string name="unagi_no_chawanmushi_type">Appetizer</string>
+
+    <string name="kani_tamago_sarada_name">Kani Tamago Sarada</string>
+    <string name="kani_tamago_sarada_shortDescription">Salad rong biển trứng cua</string>
+    <string name="kani_tamago_sarada_description">"Kani Tamago" là trứng cua, và "Kaisou" là rong biển. Kani Tamago to Kaisou Sarada là món salad thanh mát kết hợp giữa rong biển tươi giòn và trứng cua béo bùi. Đây là món ăn phổ biến trong ẩm thực Nhật Bản, không chỉ ngon miệng mà còn tốt cho sức khỏe, nhờ vào hàm lượng chất xơ, khoáng chất từ rong biển và protein từ trứng cua.</string>
+    <string name="kani_tamago_sarada_type">Appetizer</string>
+
+    <string name="ikura_no_chawanmushi_name">Ikura no Chawanmushi</string>
+    <string name="ikura_no_chawanmushi_shortDescription">Trứng hấp ikura</string>
+    <string name="ikura_no_chawanmushi_description">"Ikura" là trứng cá hồi, và "Chawanmushi" là món trứng hấp mềm mịn truyền thống của Nhật Bản. Ikura no Chawanmushi là sự kết hợp giữa trứng hấp thơm mịn và lớp trứng cá hồi tươi ngon, tạo nên một món ăn vừa tinh tế, vừa đậm đà hương vị biển cả.</string>
+    <string name="ikura_no_chawanmushi_type">Appetizer</string>
+
+    <string name="age_tofu_to_katsuo_name">Age Tofu to Katsuo</string>
+    <string name="age_tofu_to_katsuo_shortDescription">Đậu phụ chiên cá ngừ bào</string>
+    <string name="age_tofu_to_katsuo_description">"Agedashi Tofu" là món đậu phụ chiên giòn ngâm trong nước dùng dashi, và "Katsuobushi" là cá ngừ bào mỏng. Đây là món ăn truyền thống của Nhật Bản, kết hợp giữa độ mềm mịn của đậu phụ, lớp vỏ giòn nhẹ bên ngoài, và hương vị thơm đặc trưng của cá ngừ bào, tạo nên một món ăn đậm đà nhưng thanh nhẹ.</string>
+    <string name="age_tofu_to_katsuo_type">Appetizer</string>
+
+    <string name="wagyu_sarada_name">Wagyu Sarada</string>
+    <string name="wagyu_sarada_shortDescription">Salad bò Wagyu</string>
+    <string name="wagyu_sarada_description">"Wagyu" là loại thịt bò Nhật Bản nổi tiếng với vân mỡ cẩm thạch và độ mềm mịn tuyệt vời, biểu tượng của sự cao cấp trong ẩm thực Nhật. Kết hợp Wagyu với salad tạo nên một món ăn tinh tế, cân bằng giữa sự đậm đà của thịt bò và sự tươi mát của rau xanh, mang lại trải nghiệm vị giác phong phú và bổ dưỡng.</string>
+    <string name="wagyu_sarada_type">Appetizer</string>
+
+    <string name="kurage_sarada_name">Kurage Sarada</string>
+    <string name="kurage_sarada_shortDescription">Salad sứa biển</string>
+    <string name="kurage_sarada_description">Món salad sứa biển kết hợp giữa sứa tươi giòn với các loại rau tươi, mang đến một hương vị thanh mát, giòn sật. Sứa có vị nhẹ, hơi mặn, thường được trộn với xốt giấm, dầu mè hoặc chanh để tăng thêm độ tươi mới và sự cân bằng hương vị.</string>
+    <string name="kurage_sarada_type">Appetizer</string>
+
+    <string name="agedashi_tofu_name">Agedashi Tofu</string>
+    <string name="agedashi_tofu_shortDescription">Tàu hũ non chiên sốt tempura</string>
+    <string name="agedashi_tofu_description">Đây là món ăn truyền thống của Nhật Bản, trong đó tàu hũ non được chiên giòn nhẹ, bên ngoài vàng rộm và bên trong vẫn giữ được độ mềm mịn đặc trưng. Điểm nhấn của món ăn là nước xốt tempura, một loại xốt nhẹ nhàng nhưng đậm đà, làm từ nước tương, dashi, và rượu mirin, mang đậm hương vị Nhật Bản thanh tao và tinh tế.</string>
+    <string name="agedashi_tofu_type">Appetizer</string>
+
+    <!-- Main course -->
+    <string name="tempura_name">Tempura</string>
+    <string name="tempura_shortDescription">Tôm và rau củ chiên Tempura</string>
+    <string name="tempura_description">Đây là món ăn truyền thống của Nhật Bản, trong đó tàu hũ non được chiên giòn nhẹ, bên ngoài vàng rộm và bên trong vẫn giữ được độ mềm mịn đặc trưng. Điểm nhấn của món ăn là nước xốt tempura, một loại xốt nhẹ nhàng nhưng đậm đà, làm từ nước tương, dashi, và rượu mirin, mang đậm hương vị Nhật Bản thanh tao và tinh tế.</string>
+    <string name="tempura_type">Main</string>
+
+    <string name="nishin_name">Nishin</string>
+    <string name="nishin_shortDescription">Cá trích Nhật Bản ép với trứng cá</string>
+    <string name="nishin_description"> </string> <!-- null -->
+    <string name="nishin_type">Main</string>
+
+    <string name="hasu_no_mori_name">Hasu no Mori</string>
+    <string name="hasu_no_mori_shortDescription">Set Sashimi tổng hợp Hasu</string>
+    <string name="hasu_no_mori_description">"Hasu" nghĩa là hoa sen, biểu tượng của sự thanh tao và tinh khiết, còn "Mori" nghĩa là sự kết hợp, sắp xếp. Tên gọi này gợi hình ảnh một set sashimi tổng hợp, trình bày như một bông sen rực rỡ, mang đậm phong cách nghệ thuật Nhật Bản.</string>
+    <string name="hasu_no_mori_type">Main</string>
+
+    <string name="hikari_sake_name">Hikari Sake</string>
+    <string name="hikari_sake_shortDescription">Sashimi cá hồi</string>
+    <string name="hikari_sake_description">"Hikari" nghĩa là ánh sáng, thể hiện sự tươi mới, long lanh của lát cá hồi, và "Sake" là cá hồi trong tiếng Nhật. Tên gọi này gợi cảm giác tinh tế và chuẩn phong cách Nhật Bản.</string>
+    <string name="hikari_sake_type">Main</string>
+
+    <string name="maguro_name">Maguro</string>
+    <string name="maguro_shortDescription">Cá ngừ đại dương</string>
+    <string name="maguro_description">"Maguro" là cá ngừ trong tiếng Nhật, và "Sarada" là salad. Maguro Sarada là món salad cá ngừ, thường kết hợp với rau xanh tươi ngon và các loại gia vị nhẹ nhàng, mang lại sự hòa quyện giữa vị ngọt tự nhiên của cá ngừ và độ tươi mát của rau.</string>
+    <string name="maguro_type">Main</string>
+
+    <string name="maguro_hana_name">Maguro Hana</string>
+    <string name="maguro_hana_shortDescription">Sashimi cá ngừ</string>
+    <string name="maguro_hana_description">"Maguro" là cá ngừ trong tiếng Nhật, và "Hana" nghĩa là hoa, gợi hình ảnh những lát cá ngừ đỏ tươi được sắp xếp đẹp mắt như cánh hoa nở rộ. Tên gọi mang tính thẩm mỹ cao, đậm chất Nhật Bản.</string>
+    <string name="maguro_hana_type">Main</string>
+
+    <string name="sake_no_tartare_name">Sake no Tartare</string>
+    <string name="sake_no_tartare_shortDescription">Sashimi cá hồi Tartare</string>
+    <string name="sake_no_tartare_description"> </string> <!-- null -->
+    <string name="sake_no_tartare_type">Main</string>
+
+    <string name="sake_sashimi_name">Sake Sashimi</string>
+    <string name="sake_sashimi_shortDescription">Cá hồi NaUy</string>
+    <string name="sake_sashimi_description"> </string> <!-- null -->
+    <string name="sake_sashimi_type">Main</string>
+
+    <string name="sakura_no_gentei_name">Sakura no Gentei</string>
+    <string name="sakura_no_gentei_shortDescription">Set Sashimi tổng hợp Sakura</string>
+    <string name="sakura_no_gentei_description"> </string> <!-- null -->
+    <string name="sakura_no_gentei_type">Main</string>
+
+    <string name="shime_saba_name">Shime Saba</string>
+    <string name="shime_saba_shortDescription">Sashimi cá Saba ngâm giấm</string>
+    <string name="shime_saba_description">Shime Saba là món cá thu ngâm giấm nổi tiếng của Nhật Bản. Cá được ướp muối và giấm để giữ độ tươi, tạo vị chua nhẹ và làm nổi bật vị béo tự nhiên. Đây là món phổ biến trong sashimi và sushi, mang hương vị thanh mát và đậm đà.</string>
+    <string name="shime_saba_type">Main</string>
+
+    <string name="suzuki_no_hikari_name">Suzuki no Hikari</string>
+    <string name="suzuki_no_hikari_shortDescription">Sashimi cá vược</string>
+    <string name="suzuki_no_hikari_description">"Suzuki" là cá vược trong tiếng Nhật, và "Hikari" nghĩa là ánh sáng, gợi lên sự tươi ngon, bóng bẩy của những lát sashimi cá vược. Tên gọi mang nét thanh lịch và giàu cảm hứng Nhật Bản.</string>
+    <string name="suzuki_no_hikari_type">Main</string>
+
+    <string name="tako_mizu_name">Tako Mizu</string>
+    <string name="tako_mizu_shortDescription">Sashimi bạch tuộc</string>
+    <string name="tako_mizu_description">"Tako" nghĩa là bạch tuộc trong tiếng Nhật, và "Mizu" là nước, tượng trưng cho sự tươi mát và ngọt lành của món sashimi bạch tuộc. Tên gọi mang đậm chất Nhật Bản và cảm giác thanh khiết.</string>
+    <string name="tako_mizu_type">Main</string>
+
+    <string name="toro_mekajiki_name">Toro Mekajiki</string>
+    <string name="toro_mekajiki_shortDescription">Bụng cá kiếm Hàn Quốc</string>
+    <string name="toro_mekajiki_description"> </string> <!-- null -->
+    <string name="toro_mekajiki_type">Main</string>
+
+    <string name="ika_kumo_name">Ika Kumo</string>
+    <string name="ika_kumo_shortDescription">Sashimi mực</string>
+    <string name="ika_kumo_description">"Ika" là mực trong tiếng Nhật, và "Kumo" nghĩa là mây, gợi hình ảnh những lát mực trắng tinh, mềm mại như những đám mây trên đĩa sashimi. Tên gọi toát lên sự nhẹ nhàng và thanh tao.</string>
+    <string name="ika_kumo_type">Main</string>
+
+    <string name="sake_maki_name">Sake Maki</string>
+    <string name="sake_maki_shortDescription">Maki cá hồi</string>
+    <string name="sake_maki_description">"Sake" là cá hồi trong tiếng Nhật, và "Maki" nghĩa là cuộn sushi. Sake Maki là món sushi cuộn với cá hồi tươi làm nhân, được bao quanh bởi lớp cơm giấm mềm mịn và rong biển nori thơm lừng. Món ăn đơn giản nhưng tinh tế, mang trọn hương vị tươi ngon của cá hồi.</string>
+    <string name="sake_maki_type">Main</string>
+
+    <string name="sake_kinoko_zosui_name">Sake Kinoko Zosui</string>
+    <string name="sake_kinoko_zosui_shortDescription">Cháo cá hồi với nấm</string>
+    <string name="sake_kinoko_zosui_description">"Sake" là cá hồi, "Kinoko" là nấm, và "Zosui" là món cháo Nhật Bản. Sake Kinoko Zosui là món cháo kết hợp giữa cá hồi tươi, nấm thanh ngọt và gạo mềm nhừ, nấu cùng nước dùng dashi đậm đà. Món ăn mang đến hương vị ấm áp, bổ dưỡng, lý tưởng cho những ngày se lạnh.</string>
+    <string name="sake_kinoko_zosui_type">Main</string>
+
+    <string name="sake_kabuto_teriyaki_name">Sake Kabuto Teriyaki</string>
+    <string name="sake_kabuto_teriyaki_shortDescription">Đầu cá hồi nướng xốt teriyaki</string>
+    <string name="sake_kabuto_teriyaki_description">"Sake" là cá hồi, "Kabuto" nghĩa là phần đầu cá, và "Teriyaki" là phương pháp nướng với nước sốt ngọt mặn đặc trưng. Sake Kabuto Teriyaki là món đầu cá hồi nướng xốt teriyaki, với phần thịt béo ngậy từ đầu cá được phủ đều lớp sốt bóng mượt, thơm lừng, mang đến hương vị đậm đà và hấp dẫn.</string>
+    <string name="sake_kabuto_teriyaki_type">Main</string>
+
+    <string name="chanko_nabe_name">Chanko Nabe</string>
+    <string name="chanko_nabe_shortDescription">Lẩu Chanko</string>
+    <string name="chanko_nabe_description">Chanko" là từ chỉ các món ăn của các đô vật sumo, và "Nabe" nghĩa là lẩu. Chanko Nabe là món lẩu truyền thống giàu dinh dưỡng, thường được các đô vật sumo ăn để tăng cường thể lực. Món lẩu này thường bao gồm thịt, cá, đậu phụ, rau củ, và mì, được nấu trong nước dùng dashi hoặc nước tương. Đây là món ăn ấm áp, bổ dưỡng và thể hiện văn hóa ẩm thực phong phú của Nhật Bản.</string>
+    <string name="chanko_nabe_type">Main</string>
+
+    <string name="sukiyaki_gyu_teppan_name">Sukiyaki Gyu Teppan</string>
+    <string name="sukiyaki_gyu_teppan_shortDescription">Sizzling bò xốt sukiyaki</string>
+    <string name="sukiyaki_gyu_teppan_description">"Sukiyaki" là loại xốt Nhật Bản ngọt mặn đậm đà, "Gyu" là thịt bò, và "Teppan" là chảo nóng. Sukiyaki Gyu Teppan là món thịt bò được áp chảo trên teppan nóng hổi, giữ độ mềm mọng của thịt, kết hợp với xốt sukiyaki thơm lừng, mang đến hương vị đậm chất Nhật Bản. Món ăn thường đi kèm rau củ để cân bằng và thêm phần hấp dẫn.</string>
+    <string name="sukiyaki_gyu_teppan_type">Main</string>
+
+    <string name="wagyu_yukke_a3_name">Wagyu Yukke A3</string>
+    <string name="wagyu_yukke_a3_shortDescription">Thịt bò Wagyu A3</string>
+    <string name="wagyu_yukke_a3_description">Món ăn kết hợp giữa thịt bò Wagyu A3 cao cấp thái sợi nhỏ và xốt Yukke đặc trưng, tạo nên hương vị béo ngậy, mềm mại và đậm đà. Điểm nhấn là lòng đỏ trứng sống, mang đến sự mượt mà và sang trọng, rất phổ biến trong ẩm thực cao cấp Nhật Bản.</string>
+    <string name="wagyu_yukke_a3_type">Main</string>
+
+    <string name="wagyu_tataki_name">Wagyu Tataki</string>
+    <string name="wagyu_tataki_shortDescription">Thịt bò Wagyu áp chảo nhanh</string>
+    <string name="wagyu_tataki_description">Tataki là kỹ thuật chế biến đặc trưng của Nhật Bản, trong đó thịt bò Wagyu được áp chảo nhanh ở nhiệt độ cao để tạo lớp vỏ cháy xém bên ngoài nhưng vẫn giữ nguyên độ mềm mọng, tái sống bên trong.</string>
+    <string name="wagyu_tataki_type">Main</string>
+
+    <string name="ebi_carpaccio_name">Ebi Carpaccio</string>
+    <string name="ebi_carpaccio_shortDescription">Tôm Carpaccio</string>
+    <string name="ebi_carpaccio_description">Món tôm sống thái lát mỏng, ướp nhẹ với xốt yuzu, dầu ô liu và nước tương Nhật, mang hương vị tươi mát và thanh tao, hòa quyện giữa vị ngọt của tôm và chua nhẹ của xốt.</string>
+    <string name="ebi_carpaccio_type">Main</string>
+
+    <string name="hotate_carpaccio_name">Hotate Carpaccio</string>
+    <string name="hotate_carpaccio_shortDescription">Sò điệp carpaccio</string>
+    <string name="hotate_carpaccio_description">Món sò điệp tươi sống thái lát mỏng, ướp cùng xốt nhẹ từ dầu ô liu, nước tương và chanh, tạo nên hương vị thanh mát, ngọt tự nhiên của sò điệp kết hợp với sự tươi mới của các gia vị.</string>
+    <string name="hotate_carpaccio_type">Main</string>
+
+    <string name="samon_tamago_sashimi_name">Samon Tamago Sashimi</string>
+    <string name="samon_tamago_sashimi_shortDescription">Sashimi trứng cá hồi</string>
+    <string name="samon_tamago_sashimi_description">Món sashimi này sử dụng trứng cá hồi tươi ngon, với những viên trứng nhỏ, căng mọng, mang hương vị ngọt ngào và béo nhẹ, thường được ăn kèm với một chút xì dầu hoặc wasabi để tăng hương vị.</string>
+    <string name="samon_tamago_sashimi_type">Main</string>
+
+    <string name="tai_sashimi_name">Tai Sashimi</string>
+    <string name="tai_sashimi_shortDescription">Sashimi cá chẽm</string>
+    <string name="tai_sashimi_description">Món sashimi được làm từ cá chẽm tươi, thái lát mỏng, có thịt ngọt, mềm và kết cấu chắc, thường được ăn kèm với xì dầu, wasabi và đôi khi là chút vỏ chanh để tăng thêm hương vị tươi mới.</string>
+    <string name="tai_sashimi_type">Main</string>
+
+    <string name="awabi_sashimi_name">Awabi Sashimi</string>
+    <string name="awabi_sashimi_shortDescription">Sashimi bào ngư</string>
+    <string name="awabi_sashimi_description"> Món sashimi bào ngư được làm từ bào ngư tươi, thái lát mỏng, với hương vị biển cả ngọt ngào và kết cấu giòn dai đặc trưng. Món này thường được thưởng thức kèm với xì dầu hoặc wasabi để tăng thêm hương vị tự nhiên.</string>
+    <string name="awabi_sashimi_type">Main</string>
+
+    <string name="kanpachi_carpaccio_name">Kanpachi Carpaccio</string>
+    <string name="kanpachi_carpaccio_shortDescription">Món carpaccio từ cá Kampachi</string>
+    <string name="kanpachi_carpaccio_description">Món carpaccio từ cá Kampachi, một loại cá vây gai Nhật Bản, được thái lát mỏng, thường được ướp với dầu ô liu, chanh và gia vị. Hương vị tươi ngon của cá Kampachi kết hợp với sự tươi mới và thanh mát của các gia vị tạo nên món ăn nhẹ nhàng, tinh tế.</string>
+    <string name="kanpachi_carpaccio_type">Main</string>
+
+    <string name="samon_no_ikura_bomb_name">Samon no Ikura Bomb</string>
+    <string name="samon_no_ikura_bomb_shortDescription">Bomb trứng cá hồi</string>
+    <string name="samon_no_ikura_bomb_description">Món ăn này kết hợp giữa trứng cá hồi tươi ngon và các nguyên liệu khác, tạo thành một "bomb" nhỏ, thường được bày trong một lớp cơm hoặc vỏ tảo biển. Trứng cá hồi có vị béo ngậy, ngọt tự nhiên, mang đến một trải nghiệm hương vị độc đáo và đầy hấp dẫn.</string>
+    <string name="samon_no_ikura_bomb_type">Main</string>
+
+    <string name="samon_abokado_bomb_name">Samon Abokado Bomb</string>
+    <string name="samon_abokado_bomb_shortDescription">Bomb cá hồi bơ lươn</string>
+    <string name="samon_abokado_bomb_description">Món Bomb cá hồi bơ lươn là sự kết hợp tuyệt vời giữa cá hồi tươi, bơ mềm mịn và lươn nướng. Món ăn này thường được bày trí hấp dẫn với các lớp nguyên liệu hòa quyện, tạo nên một hương vị béo ngậy, thơm ngon và đậm đà, mang lại trải nghiệm mới mẻ và độc đáo cho thực khách.</string>
+    <string name="samon_abokado_bomb_type">Main</string>
+
+    <string name="hotate_sashimi_name">Hotate Sashimi</string>
+    <string name="hotate_sashimi_shortDescription">Sashimi sò điệp</string>
+    <string name="hotate_sashimi_description">Món sashimi sò điệp được làm từ sò điệp tươi, thái lát mỏng, giữ nguyên hương vị ngọt ngào, tươi mới của biển cả. Sò điệp có kết cấu giòn, mềm mịn, thường được thưởng thức cùng với xì dầu hoặc wasabi để tăng thêm hương vị tự nhiên.</string>
+    <string name="hotate_sashimi_type">Main</string>
+
+    <string name="samon_carpaccio_name">Samon Carpaccio</string>
+    <string name="samon_carpaccio_shortDescription">Cá hồi carpaccio</string>
+    <string name="samon_carpaccio_description">Món Carpaccio cá hồi được làm từ cá hồi tươi, thái lát mỏng, ướp với dầu ô liu, chanh và gia vị nhẹ nhàng. Hương vị ngọt ngào của cá hồi kết hợp với sự tươi mát của các gia vị tạo nên món ăn thanh tao, dễ chịu, thích hợp làm khai vị trong các bữa ăn Nhật Bản.</string>
+    <string name="samon_carpaccio_type">Main</string>
+
+    <string name="ebi_sashimi_name">Ebi Sashimi</string>
+    <string name="ebi_sashimi_shortDescription">Sashimi tôm</string>
+    <string name="ebi_sashimi_description">Món sashimi tôm được làm từ tôm tươi, thái lát mỏng, giữ nguyên độ ngọt tự nhiên và độ giòn của tôm. Thường được thưởng thức kèm với xì dầu và wasabi, món ăn này mang lại hương vị tươi mát, thanh nhẹ, đặc trưng của hải sản tươi sống Nhật Bản.</string>
+    <string name="ebi_sashimi_type">Main</string>
+
+    <string name="aji_sashimi_no_akako_name">Aji Sashimi no Akako</string>
+    <string name="aji_sashimi_no_akako_shortDescription">Sashimi cá trích trứng đỏ</string>
+    <string name="aji_sashimi_no_akako_description">Món sashimi này sử dụng cá trích tươi, thái lát mỏng, kết hợp với trứng cá đỏ (trứng cá hồi hoặc trứng cá khác) để tạo nên một món ăn đậm đà và đầy màu sắc. Vị ngọt của cá trích tươi hòa quyện với sự béo ngậy và vị mặn nhẹ của trứng, mang lại một trải nghiệm hương vị phong phú, thanh mát.</string>
+    <string name="aji_sashimi_no_akako_type">Main</string>
+
+    <string name="su_saba_sashimi_name">Su Saba Sashimi</string>
+    <string name="su_saba_sashimi_shortDescription">Sashimi saba ngâm dấm</string>
+    <string name="su_saba_sashimi_description">Món Sashimi cá saba ngâm dấm sử dụng cá saba tươi, thái lát mỏng và được ngâm trong dấm để tạo ra hương vị chua nhẹ, tươi mát. Cá saba có vị béo ngậy, kết hợp với vị chua từ dấm tạo nên sự cân bằng hoàn hảo, là món ăn đặc trưng trong ẩm thực Nhật Bản.</string>
+    <string name="su_saba_sashimi_type">Main</string>
+
+    <string name="buri_sashimi_name">Buri Sashimi</string>
+    <string name="buri_sashimi_shortDescription">Sashimi cá ngừ</string>
+    <string name="buri_sashimi_description">Món sashimi cá ngừ sử dụng thịt cá ngừ tươi, thái lát mỏng, mang đến hương vị ngọt ngào và béo ngậy, đặc trưng của cá ngừ tươi sống. Món ăn này thường được thưởng thức với xì dầu, wasabi và đôi khi là một chút chanh để tăng thêm độ tươi mát và đậm đà.</string>
+    <string name="buri_sashimi_type">Main</string>
+
+    <!-- Dessert -->
+    <string name="vanira_aisu_name">Vanira Aisu</string>
+    <string name="vanira_aisu_shortDescription">Kem Vani</string>
+    <string name="vanira_aisu_description">"Vanira" là phiên âm của vanilla trong tiếng Nhật, và "Aisu" là từ chỉ kem (ice cream). Vanira Aisu là món kem vani mềm mịn, thơm ngọt, mang hương vị cổ điển nhưng luôn được yêu thích bởi sự thanh nhẹ và dễ kết hợp với nhiều món tráng miệng khác.</string>
+    <string name="vanira_aisu_type">Dessert</string>
+
+    <string name="matcha_yoguruto_name">Matcha Yoguruto</string>
+    <string name="matcha_yoguruto_shortDescription">Sữa chua trà xanh</string>
+    <string name="matcha_yoguruto_description">"Matcha" là trà xanh Nhật Bản, và "Yoguruto" là sữa chua. Matcha Yoguruto là sự kết hợp độc đáo giữa vị chua thanh mát của sữa chua và hương thơm dịu, hơi đắng nhẹ của matcha, tạo nên món tráng miệng vừa ngon miệng vừa tốt cho sức khỏe.</string>
+    <string name="matcha_yoguruto_type">Dessert</string>
+
+    <string name="buruberi_yoguruto_name">Buruberi Yoguruto</string>
+    <string name="buruberi_yoguruto_shortDescription">Sữa chua việt quất</string>
+    <string name="buruberi_yoguruto_description">"Burūberī" là blueberry (việt quất) trong tiếng Nhật, và "Yoguruto" là sữa chua. Burūberī Yoguruto là món sữa chua kết hợp với việt quất chua ngọt, mang đến hương vị thanh mát, giàu dinh dưỡng, và là sự lựa chọn hoàn hảo cho những ai yêu thích món tráng miệng tự nhiên và tốt cho sức khỏe.</string>
+    <string name="buruberi_yoguruto_type">Dessert</string>
+
+    <string name="kisetsu_no_kudamono_name">Kisetsu no Kudamono</string>
+    <string name="kisetsu_no_kudamono_shortDescription">Hoa quả theo mùa</string>
+    <string name="kisetsu_no_kudamono_description">"Kisetsu" nghĩa là mùa, và "Kudamono" là trái cây. Kisetsu no Kudamono là món trái cây tươi được chọn lựa theo mùa, đảm bảo độ chín mọng, thơm ngon tự nhiên, và giàu dinh dưỡng, mang đến hương vị tinh tế theo từng thời điểm trong năm.</string>
+    <string name="kisetsu_no_kudamono_type">Dessert</string>
+
+    <!-- Drink -->
+    <string name="matcha_name">Matcha</string>
+    <string name="matcha_price">40.000đ</string>
+    <string name="matcha_description">Matcha là trà xanh dạng bột mịn, được làm từ lá trà non nghiền nhỏ. Đây là biểu tượng của văn hóa trà đạo Nhật Bản, mang hương vị thanh mát, hơi đắng nhẹ, đậm vị trà xanh tự nhiên. Matcha không chỉ ngon miệng mà còn chứa nhiều chất chống oxy hóa, giúp thanh lọc cơ thể và mang lại cảm giác thư giãn.</string>
+    <string name="matcha_type">Drink</string>
+
+    <string name="sake_name">Sake</string>
+    <string name="sake_price">200.000đ</string>
+    <string name="sake_description">Sake là loại rượu truyền thống của Nhật Bản, được làm từ gạo lên men, có vị ngọt nhẹ và hậu vị êm dịu. Sake thường được dùng trong các nghi lễ hoặc bữa ăn trang trọng, đặc biệt khi thưởng thức sashimi, nó làm tăng hương vị của món ăn. Có thể uống nóng hoặc lạnh tùy mùa.</string>
+    <string name="sake_type">Drink</string>
+
+    <string name="umeshu_name">Umeshu</string>
+    <string name="umeshu_price">130.000đ</string>
+    <string name="umeshu_description">Umeshu là rượu được ngâm từ quả mơ xanh Nhật Bản, có vị ngọt thanh và mùi thơm dịu. Đây là thức uống nhẹ nhàng, thường được yêu thích bởi cả nam và nữ vì dễ uống, phù hợp với những bữa ăn nhẹ hoặc khi cần thư giãn.</string>
+    <string name="umeshu_type">Drink</string>
+
+    <string name="shochu_name">Shochu</string>
+    <string name="shochu_price">150.000đ</string>
+    <string name="shochu_description">Shochu là một loại rượu nhẹ phổ biến, có nồng độ cồn thấp hơn sake và thường được làm từ khoai lang, lúa mạch hoặc gạo. Shochu có vị thanh nhẹ, ít ngọt, thích hợp để uống kèm bữa ăn vì không làm át đi hương vị món chính.</string>
+    <string name="shochu_type">Drink</string>
+
+    <string name="biiru_name">Biiru</string>
+    <string name="biiru_price">90.000đ</string>
+    <string name="biiru_description">Bia Nhật Bản như Asahi, Sapporo, hay Kirin được sản xuất từ lúa mạch chất lượng cao, mang vị đậm đà nhưng dễ uống. Bia thường được dùng trong các bữa tiệc hoặc kèm với sashimi, giúp tăng cảm giác sảng khoái.</string>
+    <string name="biiru_type">Drink</string>
+
+    <string name="ramune_name">Ramune</string>
+    <string name="ramune_price">90.000đ</string>
+    <string name="ramune_description">Ramune là nước ngọt truyền thống của Nhật, nổi bật với chai thủy tinh có viên bi độc đáo ở cổ chai. Với hương vị chanh ngọt mát, Ramune là lựa chọn tuyệt vời để giải khát, đặc biệt phổ biến vào mùa hè và các lễ hội.</string>
+    <string name="ramune_type">Drink</string>
+
+    <string name="ryokucha_name">Ryokucha</string>
+    <string name="ryokucha_price">50.000đ</string>
+    <string name="ryokucha_description">Ryokucha là trà xanh phổ biến nhất trong các bữa ăn Nhật Bản. Loại trà này nhẹ nhàng, dễ uống, giúp làm sạch vị giác, tăng hương vị món sashimi, và mang lại cảm giác thư thái.</string>
+    <string name="ryokucha_type">Drink</string>
+
+    <string name="gyuunyuu_name">Gyuunyuu</string>
+    <string name="gyuunyuu_price">70.000đ</string>
+    <string name="gyuunyuu_description">Sữa tươi Nhật Bản có hương vị thanh mát, thơm ngọt tự nhiên và giàu dinh dưỡng. Đây là thức uống bổ dưỡng, phù hợp với trẻ em hoặc những ai muốn kết thúc bữa ăn bằng một hương vị nhẹ nhàng.</string>
+    <string name="gyuunyuu_type">Drink</string>
+
+    <string name="mugicha_name">Mugicha</string>
+    <string name="mugicha_price">50.000đ</string>
+    <string name="mugicha_description">Mugicha là trà được làm từ lúa mạch rang, không chứa caffeine, vị hơi ngọt và thơm bùi. Đây là loại trà giải khát phổ biến trong mùa hè ở Nhật, giúp thanh lọc cơ thể và làm dịu mát sau bữa ăn.</string>
+    <string name="mugicha_type">Drink</string>
+
+    <string name="yuzucha_name">Yuzucha</string>
+    <string name="yuzucha_price">70.000đ</string>
+    <string name="yuzucha_description">Trà Yuzu được làm từ quả yuzu (một loại cam chanh Nhật Bản), có hương thơm đặc trưng và vị chua ngọt hài hòa. Đây là thức uống lý tưởng để thư giãn, hỗ trợ tiêu hóa và tăng cường sức đề kháng.</string>
+    <string name="yuzucha_type">Drink</string>
+
+    <string name="amazake_name">Amazake</string>
+    <string name="amazake_price">70.000đ</string>
+    <string name="amazake_description">Amazake là thức uống ngọt nhẹ, làm từ gạo lên men, không chứa cồn hoặc chỉ có hàm lượng rất thấp. Amazake được ưa chuộng như một thức uống bổ dưỡng, ấm bụng, đặc biệt phù hợp trong mùa đông.</string>
+    <string name="amazake_type">Drink</string>
+
+    <string name="nama_biiru_name">Nama Biiru</string>
+    <string name="nama_biiru_price">80.000đ</string>
+    <string name="nama_biiru_description">"Nama" trong tiếng Nhật có nghĩa là tươi, và "Biiru" là bia. Nama Biiru chỉ loại bia được phục vụ trực tiếp từ thùng, giữ nguyên độ tươi mát, bọt mịn và vị ngọt tự nhiên của lúa mạch. Loại bia này rất phổ biến trong các quán izakaya và nhà hàng Nhật Bản, là lựa chọn hoàn hảo để kết hợp với các món ăn nhẹ hoặc sashimi.</string>
+    <string name="nama_biiru_type">Drink</string>
+
+    <string name="pepsi_name">Pepsi</string>
+    <string name="pepsi_price">20.000đ</string>
+    <string name="pepsi_description">Pepsi là một loại nước ngọt có ga quốc tế được ưa chuộng trên toàn thế giới, và tại Nhật Bản cũng không ngoại lệ. Với hương vị đặc trưng, sự kết hợp giữa vị ngọt và hơi ga nhẹ, Pepsi thường xuất hiện trong các bữa ăn gia đình hoặc tại nhà hàng. Pepsi rất hợp khi đi kèm các món ăn đậm đà, giúp làm sạch vị giác và tăng thêm sự sảng khoái.</string>
+    <string name="pepsi_type">Drink</string>
+
+    <string name="coca_cola_name">Coca Cola</string>
+    <string name="coca_cola_price">20.000đ</string>
+    <string name="coca_cola_description">Coca-Cola, thường được gọi ngắn gọn là Coke, là loại nước ngọt có ga nổi tiếng toàn cầu. Với vị ngọt đặc trưng, kết hợp cùng hương thơm nhẹ của caramel và bọt khí sảng khoái, Coca-Cola là thức uống phổ biến trong mọi dịp, từ bữa ăn gia đình đến các bữa tiệc. Tại Nhật Bản, Coca-Cola thường được phục vụ kèm đá lạnh, mang lại cảm giác tươi mới, đặc biệt khi dùng chung với các món nướng hoặc hải sản.</string>
+    <string name="coca_cola_type">Drink</string>
+</resources>
