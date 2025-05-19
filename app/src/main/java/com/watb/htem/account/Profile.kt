@@ -57,14 +57,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
-import com.watb.htem.CommonSpaceColumn
-import com.watb.htem.FULL_NAME
+import com.watb.htem.main.CommonSpaceColumn
+import com.watb.htem.main.FULL_NAME
 import com.watb.htem.R
-import com.watb.htem.Transaction
-import com.watb.htem.USER_ID
-import com.watb.htem.USER_POINTS
+import com.watb.htem.data.Transaction
+import com.watb.htem.main.USER_ID
+import com.watb.htem.main.USER_POINTS
 import com.watb.htem.api.ApiClient
-import com.watb.htem.userDataStore
+import com.watb.htem.main.userDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.Instant
@@ -255,19 +255,19 @@ fun Profile(navController: NavHostController, onDismiss: () -> Unit) {
                                         color = Color.Black
                                     )
                                     transactionHistory.forEach {
-                                        Log.d("Profile", it.paymentDate)
-                                        // Chuyển đổi từ chuỗi ISO 8601 sang Instant
                                         val instant = Instant.parse(it.paymentDate)
-                                        // Chuyển đổi Instant sang LocalDateTime tại múi giờ mặc định (hoặc múi giờ bạn muốn)
                                         val localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
 
-                                        // Định dạng lại LocalDateTime thành chuỗi theo định dạng mong muốn
                                         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                                         val formattedDateTime = localDateTime.format(formatter)
                                         Text(
                                             text = formattedDateTime,
                                             fontSize = 13.sp
                                         )
+//                                        Text(
+//                                            text = it.paymentDate,
+//                                            fontSize = 13.sp
+//                                        )
                                     }
                                 }
                                 Spacer(modifier = Modifier.weight(1f))
@@ -327,7 +327,6 @@ fun Profile(navController: NavHostController, onDismiss: () -> Unit) {
                                                 Log.d("Profile", response.toString())
                                                 if (ApiClient.getStatusCode() != 200) {
                                                     Toast.makeText(context, "Không cập nhật được lịch sử giao dịch. Vui lòng thử lại.", Toast.LENGTH_SHORT).show()
-//                                    response = ApiClient.getUserTransaction(userId.value)
                                                     isLoading.value = false
                                                     return@launch
                                                 }

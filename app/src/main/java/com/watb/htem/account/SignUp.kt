@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
@@ -26,6 +27,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -69,15 +71,10 @@ fun SignUpScreen(navController: NavController) {
     var isLoading by remember { mutableStateOf(false) }
     var message by remember { mutableStateOf<String?>(null) }
 
-    ConstraintLayout(
-        modifier = Modifier.fillMaxSize()
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
     ) {
-        val horizontalGuideline = createGuidelineFromTop(0.5f)
-        val (titleRef, usernameRef, fullNameRef, passwordRef, guessRef, signUpRef, signInRef, logoRef, backRef) = createRefs()
-        var phone by remember { mutableStateOf("") }
-        var fullName by remember { mutableStateOf("") }
-        var password by remember { mutableStateOf("") }
-
         Image(
             painter = painterResource(id = R.drawable.sign_in_up_scan),
             contentDescription = "Background Image",
@@ -86,256 +83,291 @@ fun SignUpScreen(navController: NavController) {
                 .graphicsLayer(alpha = 0.5f),
             contentScale = ContentScale.FillHeight
         )
-
-        IconButton(
-            onClick = {
-                navController.navigate("home") {
-                    popUpTo("home") {
-                        inclusive = false
-                    }
-                }
-            },
-            modifier = Modifier.constrainAs(backRef) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-            }
+        ConstraintLayout(
+            modifier = Modifier
+                .fillMaxSize()
+                .safeDrawingPadding()
         ) {
-            Icon(
-                Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back"
-            )
-        }
+            val horizontalGuideline = createGuidelineFromTop(0.5f)
+            val (titleRef, usernameRef, fullNameRef, passwordRef, guessRef, signUpRef, signInRef, logoRef, backRef) = createRefs()
+            var phone by remember { mutableStateOf("") }
+            var fullName by remember { mutableStateOf("") }
+            var password by remember { mutableStateOf("") }
 
-        Image(
-            painter = painterResource(id = R.drawable.logo_res),
-            contentDescription = null,
-            modifier = Modifier
-                .size(100.dp)
-                .constrainAs(logoRef) {
-                    top.linkTo(parent.top, margin = 16.dp)
-                    end.linkTo(parent.end, margin = 16.dp)
+            IconButton(
+                onClick = {
+                    navController.navigate("home") {
+                        popUpTo("home") {
+                            inclusive = false
+                        }
+                    }
+                },
+                modifier = Modifier.constrainAs(backRef) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
                 }
-        )
-
-        Text(
-            text = "Đăng ký",
-            fontSize = 40.sp,
-            fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily(Font(resId = R.font.svn_shikamaru)),
-            modifier = Modifier.constrainAs(titleRef) {
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-                bottom.linkTo(usernameRef.top, margin = 54.dp)
+            ) {
+                Icon(
+                    Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back"
+                )
             }
-        )
 
-        TextField(
-            value = phone,
-            onValueChange = { phone = it },
-            label = { Text("Số điện thoại") },
-            trailingIcon = {
-                IconButton(
-                    onClick = { phone = "" }
-                ) {
-                    Icon(
-                        Icons.Default.Clear,
-                        contentDescription = null
-                    )
-                }
-            },
-            maxLines = 1,
-            singleLine = false,
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier
-                .fillMaxWidth(0.75f)
-                .wrapContentHeight()
-                .constrainAs(usernameRef) {
-                    bottom.linkTo(fullNameRef.top, margin = 40.dp)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next
+            Image(
+                painter = painterResource(id = R.drawable.logo_res),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(100.dp)
+                    .constrainAs(logoRef) {
+                        top.linkTo(parent.top, margin = 16.dp)
+                        end.linkTo(parent.end, margin = 16.dp)
+                    }
             )
-        )
 
-        TextField(
-            value = fullName,
-            onValueChange = { fullName = it },
-            label = { Text("Họ và tên") },
-            trailingIcon = {
-                IconButton(
-                    onClick = { fullName = "" }
-                ) {
-                    Icon(
-                        Icons.Default.Clear,
-                        contentDescription = null
-                    )
-                }
-            },
-            maxLines = 1,
-            singleLine = false,
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier
-                .fillMaxWidth(0.75f)
-                .wrapContentHeight()
-                .constrainAs(fullNameRef) {
-                    bottom.linkTo(horizontalGuideline)
+            Text(
+                text = "Đăng ký",
+                fontSize = 40.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily(Font(resId = R.font.svn_shikamaru)),
+                modifier = Modifier.constrainAs(titleRef) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next
+                    bottom.linkTo(usernameRef.top, margin = 54.dp)
+                }
             )
-        )
 
-        TextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Mật khẩu") },
-            trailingIcon = {
-                IconButton(
-                    onClick = { isShowPassword = !isShowPassword }
-                ) {
-                    Image(
-                        painter = if (isShowPassword) painterResource(R.drawable.open) else painterResource(R.drawable.close),
-                        contentDescription = null,
-                        modifier = Modifier.height(24.dp)
-                    )
-                }
-            },
-            maxLines = 1,
-            singleLine = false,
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier
-                .fillMaxWidth(0.75f)
-                .wrapContentHeight()
-                .focusRequester(passwordRequester)
-                .constrainAs(passwordRef) {
-                    top.linkTo(fullNameRef.bottom, margin = 40.dp)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
+            TextField(
+                value = phone,
+                onValueChange = { phone = it },
+                label = { Text("Số điện thoại") },
+                trailingIcon = {
+                    IconButton(
+                        onClick = { phone = "" }
+                    ) {
+                        Icon(
+                            Icons.Default.Clear,
+                            contentDescription = null
+                        )
+                    }
                 },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Password
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    passwordRequester.requestFocus()
-                    keyboardController?.hide()
-                }
-            ),
-            visualTransformation = if (isShowPassword) VisualTransformation.None else PasswordVisualTransformation()
-        )
+                colors = TextFieldDefaults.colors(
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black,
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                ),
+                maxLines = 1,
+                singleLine = false,
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth(0.75f)
+                    .wrapContentHeight()
+                    .constrainAs(usernameRef) {
+                        bottom.linkTo(fullNameRef.top, margin = 40.dp)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next
+                )
+            )
 
-        Button(
-            onClick = {
-                isLoading = true
-                coroutineScope.launch {
-                    val response = ApiClient.register(phone, password, fullName)
-                    Log.d("Register", "Register response: $response")
-                    message = response?.message ?: response?.error ?: "Register failed"
-                    if (response != null) {
-                        message?.let {
-                            if (message == "Đăng ký thành công") {
-                                keyboardController?.hide()
-                                Helper.saveLoginState(context, true, response)
-                                navController.navigate("qrScanner") {
-                                    popUpTo("signUp") {
-                                        inclusive = true
+            TextField(
+                value = fullName,
+                onValueChange = { fullName = it },
+                label = { Text("Họ và tên") },
+                trailingIcon = {
+                    IconButton(
+                        onClick = { fullName = "" }
+                    ) {
+                        Icon(
+                            Icons.Default.Clear,
+                            contentDescription = null
+                        )
+                    }
+                },
+                colors = TextFieldDefaults.colors(
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black,
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                ),
+                maxLines = 1,
+                singleLine = false,
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth(0.75f)
+                    .wrapContentHeight()
+                    .constrainAs(fullNameRef) {
+                        bottom.linkTo(horizontalGuideline)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next
+                )
+            )
+
+            TextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Mật khẩu") },
+                trailingIcon = {
+                    IconButton(
+                        onClick = { isShowPassword = !isShowPassword }
+                    ) {
+                        Image(
+                            painter = if (isShowPassword) painterResource(R.drawable.open) else painterResource(R.drawable.close),
+                            contentDescription = null,
+                            modifier = Modifier.height(24.dp)
+                        )
+                    }
+                },
+                colors = TextFieldDefaults.colors(
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black,
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                ),
+                maxLines = 1,
+                singleLine = false,
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth(0.75f)
+                    .wrapContentHeight()
+                    .focusRequester(passwordRequester)
+                    .constrainAs(passwordRef) {
+                        top.linkTo(fullNameRef.bottom, margin = 40.dp)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Password
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        passwordRequester.requestFocus()
+                        keyboardController?.hide()
+                    }
+                ),
+                visualTransformation = if (isShowPassword) VisualTransformation.None else PasswordVisualTransformation()
+            )
+
+            Button(
+                onClick = {
+                    isLoading = true
+                    coroutineScope.launch {
+                        val response = ApiClient.register(phone, password, fullName)
+                        Log.d("Register", "Register response: $response")
+                        message = response?.message ?: response?.error ?: "Register failed"
+                        if (response != null) {
+                            message?.let {
+                                if (message == "Đăng ký thành công") {
+                                    keyboardController?.hide()
+                                    Helper.saveLoginState(context, true, response)
+                                    navController.navigate("qrScanner") {
+                                        popUpTo("signUp") {
+                                            inclusive = true
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
-                isLoading = false
-            },
-            modifier = Modifier
-                .wrapContentSize()
-                .constrainAs(signUpRef) {
-                    top.linkTo(passwordRef.bottom, margin = 28.dp)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
+                    isLoading = false
                 },
-            shape = RoundedCornerShape(12.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red,
-                contentColor = colorResource(R.color.white)
-            ),
-            elevation = ButtonDefaults.buttonElevation(
-                defaultElevation = 16.dp,
-                pressedElevation = 20.dp
-            )
-        ) {
-            Text(text = "Đăng ký")
-        }
+                modifier = Modifier
+                    .wrapContentSize()
+                    .constrainAs(signUpRef) {
+                        top.linkTo(passwordRef.bottom, margin = 28.dp)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    },
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Red,
+                    contentColor = colorResource(R.color.white)
+                ),
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 16.dp,
+                    pressedElevation = 20.dp
+                )
+            ) {
+                Text(text = "Đăng ký")
+            }
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .wrapContentSize()
-                .constrainAs(signInRef) {
-                    top.linkTo(signUpRef.bottom, margin = 16.dp)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
-        ) {
-            Text(
-                text = "Bạn đã có tài khoản?",
-                color = Color.Black
-            )
-            TextButton(
-                onClick = {
-                    navController.navigate("signIn")
-                }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .wrapContentSize()
+                    .constrainAs(signInRef) {
+                        top.linkTo(signUpRef.bottom, margin = 16.dp)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
             ) {
                 Text(
-                    text = "Đăng nhập ngay",
+                    text = "Bạn đã có tài khoản?",
+                    color = Color.Black
                 )
+                TextButton(
+                    onClick = {
+                        navController.navigate("signIn")
+                    }
+                ) {
+                    Text(
+                        text = "Đăng nhập ngay",
+                    )
+                }
             }
-        }
 
-        TextButton(
-            onClick = {
-                navController.navigate("qrScanner") {
+            TextButton(
+                onClick = {
+                    navController.navigate("qrScanner") {
 //                    popUpTo("home") {
 //                        inclusive = true
 //                    }
+                    }
+                },
+                modifier = Modifier.constrainAs(guessRef) {
+                    top.linkTo(signInRef.bottom, margin = (-16).dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
                 }
-            },
-            modifier = Modifier.constrainAs(guessRef) {
-                top.linkTo(signInRef.bottom, margin = (-16).dp)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            }
-        ) {
-            Text(
-                text = "Tiếp tục với vai trò khách vãng lai",
-                color = Color.Black
-            )
-        }
-
-        if (isLoading) {
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                color = Color.Black.copy(alpha = 0.5f)
             ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
+                Text(
+                    text = "Tiếp tục với vai trò khách vãng lai",
+                    color = Color.Black
+                )
+            }
+
+            if (isLoading) {
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    color = Color.Black.copy(alpha = 0.5f)
                 ) {
                     Box(
                         contentAlignment = Alignment.Center,
-                        modifier = Modifier.size(200.dp)
+                        modifier = Modifier.fillMaxSize()
                     ) {
-                        CircularProgressIndicator(
-                            color = Color.Red,
-                            modifier = Modifier.size(150.dp)
-                        )
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier.size(200.dp)
+                        ) {
+                            CircularProgressIndicator(
+                                color = Color.Red,
+                                modifier = Modifier.size(150.dp)
+                            )
+                        }
                     }
                 }
             }

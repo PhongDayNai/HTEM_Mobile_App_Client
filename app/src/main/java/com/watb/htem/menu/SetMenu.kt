@@ -39,9 +39,9 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.watb.htem.CommonSpaceColumn
-import com.watb.htem.Food
-import com.watb.htem.Set
+import com.watb.htem.main.CommonSpaceColumn
+import com.watb.htem.data.Food
+import com.watb.htem.data.Set
 import com.watb.htem.R
 
 @Composable
