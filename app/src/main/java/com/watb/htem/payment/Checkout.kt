@@ -5,12 +5,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -22,15 +25,45 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.watb.htem.R
+import com.watb.htem.api.ApiClient
+import com.watb.htem.helper.Helper
+import com.watb.htem.main.dataStore
 import com.watb.htem.ui.theme.HTEMTheme
+import kotlinx.coroutines.delay
 
 @Composable
-fun CheckoutScreen(tableCode: String) {
+fun CheckoutScreen(navController: NavController, tableCode: String) {
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(2000)
+            val response = ApiClient.checkPaymentState(tableCode.toInt())
+            if (response != null) {
+                when (response.paymentState) {
+                    "paid" -> {
+//                        if (isLoggedIn.value) Helper.saveUserPoints(context, response.nowPoints ?: 0)
+                        Helper.setPaidState(context, true)
+                        Helper.clearDataStore(context.dataStore)
+                        navController.navigate("paymentSuccessful") {
+                            popUpTo("paymentSuccessful") {
+                                inclusive = true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .background(color = colorResource(id = R.color.white))
+            .safeDrawingPadding()
     ) {
         val (tableCodeRef, titleRef, imageRef, logoRef) = createRefs()
         val horizontalGuideline = createGuidelineFromTop(0.2f)
@@ -101,6 +134,6 @@ fun CheckoutScreen(tableCode: String) {
 @Composable
 fun PreviewCheckout() {
     HTEMTheme {
-        CheckoutScreen("123")
+        CheckoutScreen(rememberNavController(), "123")
     }
 }
