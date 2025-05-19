@@ -1,11 +1,7 @@
-package com.watb.htem
+package com.watb.htem.main
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.view.WindowInsets
-import android.view.WindowInsetsController
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -31,17 +27,17 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.createGraph
 import com.watb.htem.account.SignInScreen
 import com.watb.htem.account.SignUpScreen
-import com.watb.htem.helper.Helper
+import com.watb.htem.api.SocketManager
 import com.watb.htem.menu.MenuScreen
 import com.watb.htem.payment.CheckoutScreen
 import com.watb.htem.payment.PaymentScreen
+import com.watb.htem.payment.PaymentSuccessful
 import com.watb.htem.payment.QRCodeScreen
 import com.watb.htem.ui.theme.HTEMTheme
 import com.watb.htem.welcome.QRCodeScannerScreen
+import com.watb.htem.welcome.SplashScreen
+import com.watb.htem.welcome.TableSelection
 import com.watb.htem.welcome.WelcomeScreen
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "cart")
 val ORDER_ID = intPreferencesKey("order_id")
@@ -51,6 +47,8 @@ val ITEM_PRICE = stringPreferencesKey("item_price")
 val ITEM_STATUS = stringPreferencesKey("item_status")
 val ITEM_SERVED = stringPreferencesKey("item_served")
 val ITEM_TYPE = stringPreferencesKey("item_type")
+val TABLE_CODE = stringPreferencesKey("table_code")
+val IS_PAID = booleanPreferencesKey("is_paid")
 
 val Context.userDataStore: DataStore<Preferences> by preferencesDataStore(name = "user")
 val IS_LOGGED_IN = booleanPreferencesKey("is_logged_in")
@@ -61,11 +59,6 @@ val USER_POINTS = intPreferencesKey("user_points")
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        CoroutineScope(Dispatchers.IO).launch {
-            Helper.clearDataStore(dataStore = dataStore)
-        }
-
         enableEdgeToEdge()
         setContent {
             HTEMTheme {
@@ -78,20 +71,25 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.let { controller ->
-                controller.hide(WindowInsets.Type.systemBars())
-                controller.systemBarsBehavior =
-                    WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            }
-        } else {
-            @Suppress("DEPRECATION")
-            window.decorView.systemUiVisibility = (
-                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                            or View.SYSTEM_UI_FLAG_FULLSCREEN
-                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    )
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//            window.insetsController?.let { controller ->
+//                controller.hide(WindowInsets.Type.systemBars())
+//                controller.systemBarsBehavior =
+//                    WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+//            }
+//        } else {
+//            @Suppress("DEPRECATION")
+//            window.decorView.systemUiVisibility = (
+//                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+//                            or View.SYSTEM_UI_FLAG_FULLSCREEN
+//                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                    )
+//        }
+    }
+
+    override fun onDestroy() {
+        SocketManager.disconnect()
+        super.onDestroy()
     }
 }
 
@@ -103,7 +101,10 @@ fun MainScreen() {
 }
 
 private fun navGraph(navController: NavHostController): NavGraph {
-    return navController.createGraph("home") {
+    return navController.createGraph("splash") {
+        composable("splash") {
+            SplashScreen(navController)
+        }
         composable("home") {
             WelcomeScreen(navController)
         }
@@ -116,13 +117,20 @@ private fun navGraph(navController: NavHostController): NavGraph {
         composable("qrScanner") {
             QRCodeScannerScreen(navController)
         }
+        composable("tableSelection") {
+            TableSelection(navController)
+        }
+        composable("tableDetail/{tableCode}") { backStackEntry ->
+            val tableCode = backStackEntry.arguments?.getString("tableCode") ?: ""
+            MenuScreen(navController, tableCode)
+        }
         composable("payment/{tableCode}") { backStackEntry ->
             val tableCode = backStackEntry.arguments?.getString("tableCode") ?: ""
             PaymentScreen(navController, tableCode)
         }
         composable("checkout/{tableCode}") { backStackEntry ->
             val tableCode = backStackEntry.arguments?.getString("tableCode") ?: ""
-            CheckoutScreen(tableCode)
+            CheckoutScreen(navController, tableCode)
         }
         composable("qrCode/{totalPrice}/{pointsUsedNumber}") { backStackEntry ->
             val totalPrice = backStackEntry.arguments?.getString("totalPrice") ?: ""
@@ -131,9 +139,8 @@ private fun navGraph(navController: NavHostController): NavGraph {
             val intPointsUsedNumber = pointsUsedNumber.toInt()
             QRCodeScreen(navController, intTotalPrice, intPointsUsedNumber)
         }
-        composable("tableDetail/{tableCode}") { backStackEntry ->
-            val tableCode = backStackEntry.arguments?.getString("tableCode") ?: ""
-            MenuScreen(navController, tableCode)
+        composable("paymentSuccessful") {
+            PaymentSuccessful(navController)
         }
     }
 }
