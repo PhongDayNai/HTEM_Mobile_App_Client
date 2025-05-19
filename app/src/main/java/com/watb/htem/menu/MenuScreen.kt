@@ -5,17 +5,23 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -41,15 +47,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.createGraph
-import com.watb.htem.Food
-import com.watb.htem.Set
+import com.watb.htem.data.Food
+import com.watb.htem.data.Set
 import com.watb.htem.R
-import com.watb.htem.USER_ID
+import com.watb.htem.main.USER_ID
 import com.watb.htem.account.ProfileScreen
 import com.watb.htem.api.ApiClient
 import com.watb.htem.cart.ShoppingCartBottomSheetScreen
 import com.watb.htem.helper.Helper
-import com.watb.htem.userDataStore
+import com.watb.htem.main.userDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -62,6 +68,7 @@ fun MenuScreen(navController: NavHostController, tableCode: String) {
     var isLoading by remember { mutableStateOf(false) }
     val userId = remember { mutableIntStateOf(0) }
     val isLoggedIn = remember { mutableStateOf(false) }
+    var lastCallTime by remember { mutableStateOf(0L) }
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
@@ -72,11 +79,72 @@ fun MenuScreen(navController: NavHostController, tableCode: String) {
     }
 
     ConstraintLayout(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .safeDrawingPadding()
     ) {
-        val barRef = createRef()
+        val (serviceBellButtonRef, barRef) = createRefs()
 
         MenuNavigation(tableCode, context)
+
+        Button(
+            onClick = {
+                val currentTime = System.currentTimeMillis()
+                val fiveMinutesMillis = 5 * 60 * 1000
+
+                if (currentTime - lastCallTime >= fiveMinutesMillis) {
+                    coroutineScope.launch {
+                        val response = ApiClient.callStaff(tableCode.toInt())
+                        if (response != null) {
+                            if (response.isSuccess == true) {
+                                Toast.makeText(
+                                    context,
+                                    "Xin vui lòng chờ trong giây lát",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                lastCallTime = currentTime
+                            } else {
+                                Toast.makeText(context, "Xin vui lòng thử lại", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        } else {
+                            Toast.makeText(context, "Xin vui lòng thử lại", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                } else {
+                    val secondsLeft =
+                        ((fiveMinutesMillis - (currentTime - lastCallTime)) / 1000).toInt()
+                    Toast.makeText(
+                        context,
+                        "Vui lòng chờ thêm $secondsLeft giây trước khi gọi lại",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFFFFFFF)
+            ),
+            shape = CircleShape,
+            contentPadding = PaddingValues(0.dp),
+            elevation = ButtonDefaults.buttonElevation(
+                defaultElevation = 4.dp,
+                pressedElevation = 8.dp
+            ),
+            modifier = Modifier
+                .constrainAs(serviceBellButtonRef) {
+                    bottom.linkTo(barRef.top, margin = 50.dp)
+                    end.linkTo(parent.end, margin = 16.dp)
+                }
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.service_bell),
+                contentDescription = null,
+                tint = Color(0xFF6A7280),
+                modifier = Modifier
+                    .size(55.dp)
+            )
+        }
 
         Card(
             colors = CardDefaults.cardColors(
@@ -120,7 +188,6 @@ fun MenuScreen(navController: NavHostController, tableCode: String) {
                 IconButton(
                     onClick = {
                         navController.navigate("payment/$tableCode")
-//                        navController.navigate("payment")
                     }
                 ) {
                     Image(
@@ -135,20 +202,8 @@ fun MenuScreen(navController: NavHostController, tableCode: String) {
 
                 IconButton(
                     onClick = {
-                        coroutineScope.launch {
-                            isLoading = true
-                            val response = ApiClient.getUserPoints(userId.intValue)
-                            if (ApiClient.getStatusCode() != 200) {
-                                Toast.makeText(context, "Không cập nhật được điểm. Vui lòng thử lại.", Toast.LENGTH_SHORT).show()
-                                isLoading = false
-                                return@launch // Dừng thực hiện tiếp
-                            }
-                            if (response != null) {
-                                Helper.saveUserPoints(context, response)
-                                showProfile = true
-                            }
-                            isLoading = false
-                        }
+                        if (isLoggedIn.value) showProfile = true
+                        else Toast.makeText(context, "Bạn phải đăng nhập để sử dụng tính năng này", Toast.LENGTH_SHORT).show()
                     }
                 ) {
                     Image(
@@ -162,10 +217,36 @@ fun MenuScreen(navController: NavHostController, tableCode: String) {
                 }
             }
 
-//            ShoppingCartScreen(showDialog = showDialogCart, onDismiss = { showDialogCart = false })
             ShoppingCartBottomSheetScreen(showDialog = showDialogCart, onDismiss = { showDialogCart = false })
             ProfileScreen(navController, showProfile, onDismiss = { showProfile = false })
         }
+
+//        Button(
+//            onClick = { /*TODO*/ },
+//            colors = ButtonDefaults.buttonColors(
+//                containerColor = Color(0xFFFFFFFF)
+//            ),
+//            shape = CircleShape,
+//            contentPadding = PaddingValues(0.dp),
+//            elevation = ButtonDefaults.buttonElevation(
+//                defaultElevation = 4.dp,
+//                pressedElevation = 8.dp
+//            ),
+//            modifier = Modifier
+//                .size(60.dp)
+//                .constrainAs(serviceBellButtonRef) {
+//                    bottom.linkTo(barRef.top, margin = 16.dp)
+//                    end.linkTo(parent.end, margin = 16.dp)
+//                }
+//        ) {
+//            Icon(
+//                painter = painterResource(R.drawable.service_bell),
+//                contentDescription = null,
+//                tint = Color(0xFF6A7280),
+//                modifier = Modifier
+//                    .size(55.dp)
+//            )
+//        }
 
         if (isLoading) {
             Surface(
@@ -196,7 +277,6 @@ fun MenuScreen(navController: NavHostController, tableCode: String) {
 @Composable
 fun MenuNavigation(tableCode: String, context: Context) {
     val navController = rememberNavController()
-//    val coroutineScope = rememberCoroutineScope()
 
     val foodListHotpot = listOf(
         Food(R.drawable.chawanmushi, R.string.chawanmushi_name, R.string.chawanmushi_shortDescription, R.string.chawanmushi_description, R.string.chawanmushi_type),

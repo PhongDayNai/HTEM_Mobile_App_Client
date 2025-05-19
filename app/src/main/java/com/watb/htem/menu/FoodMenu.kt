@@ -1,5 +1,6 @@
 package com.watb.htem.menu
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.animateContentSize
@@ -58,14 +59,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.watb.htem.CartItem
-import com.watb.htem.CommonSpaceColumn
-import com.watb.htem.Food
-import com.watb.htem.ORDER_ID
+import com.watb.htem.data.CartItem
+import com.watb.htem.main.CommonSpaceColumn
+import com.watb.htem.data.Food
+import com.watb.htem.main.ORDER_ID
 import com.watb.htem.R
-import com.watb.htem.Set
+import com.watb.htem.data.Set
 import com.watb.htem.api.ApiClient
-import com.watb.htem.dataStore
+import com.watb.htem.main.dataStore
 import com.watb.htem.helper.Helper
 import com.watb.htem.ui.theme.HTEMTheme
 import kotlinx.coroutines.delay
@@ -87,8 +88,8 @@ fun FoodMenuScreen(tableCode: String, set: Set) {
     var orderId by remember { mutableIntStateOf(0) }
     var isLoading by remember { mutableStateOf(false) }
 
-    val itemCountSet by Helper.countDataFood(context, "notOrderYet").collectAsState(initial = 0)
-    val itemCountDrink by Helper.countDataDrink(context, "notOrderYet").collectAsState(initial = 0)
+    val itemCountFood by Helper.countDataFood(context, itemStatus = "notOrderYet").collectAsState(initial = 0)
+    val itemCountDrink by Helper.countDataDrink(context, itemStatus = "notOrderYet").collectAsState(initial = 0)
 
     val itemList: MutableList<CartItem> = mutableListOf()
 
@@ -105,11 +106,25 @@ fun FoodMenuScreen(tableCode: String, set: Set) {
     }
 
     LaunchedEffect(Unit) {
-        coroutineScope.launch {
-            val preferences = context.dataStore.data.first()
-            orderId = preferences[ORDER_ID] ?: 0
-            Helper.addItemMenuToDataStore(dataStore, itemList)
+        launch {
+            while (true) {
+                delay(5000)
+                val response = ApiClient.getServedDishes(orderId)
+                Log.d("Get Served Dishes", "Get Served Dishes response: $response")
+                if (ApiClient.getStatusCode() != 200) {
+                    Log.d("FoodScreen", "Không lấy được đơn hàng. Vui lòng thử lại.")
+//                    Toast.makeText(context, "Không lấy được đơn hàng. Vui lòng thử lại.", Toast.LENGTH_SHORT).show()
+//                    return@launch
+                } else {
+                    Helper.updateServedDishes(context, response?.servedDishes ?: emptyList())
+                    Log.d("FoodScreen", "Lấy đơn hàng thành công!")
+//                    Toast.makeText(context, "Lấy đơn hàng thành công!", Toast.LENGTH_LONG).show()
+                }
+            }
         }
+        val preferences = context.dataStore.data.first()
+        orderId = preferences[ORDER_ID] ?: 0
+        Helper.addItemMenuToDataStore(dataStore, itemList)
     }
 
     ConstraintLayout(
@@ -147,14 +162,24 @@ fun FoodMenuScreen(tableCode: String, set: Set) {
                             fontSize = 16.sp
                         )
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = stringResource(id = set.name),
                         modifier = Modifier
+                            .padding(vertical = 4.dp)
                             .height(28.dp),
                         style = TextStyle(
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 24.sp
+                        )
+                    )
+                    Text(
+                        text = "Mã đơn hàng: $orderId",
+                        modifier = Modifier
+                            .padding(bottom = 4.dp)
+                            .height(14.dp),
+                        style = TextStyle(
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 10.sp
                         )
                     )
                 }
@@ -173,63 +198,72 @@ fun FoodMenuScreen(tableCode: String, set: Set) {
                             .padding(0.dp),
                         contentScale = ContentScale.Fit
                     )
-                    Row {
-                        Button(
-                            onClick = {
-                                val currentTime = System.currentTimeMillis()
-                                if (currentTime - lastClickTime < 1000) {
-                                    clickCount++
-                                    if (clickCount == 3) {
-                                        coroutineScope.launch {
-                                            isLoading = true
-                                            val response = ApiClient.dishesOrder(orderId,  Helper.getDishes(context))
-                                            Log.d("Add Dishes", "Add Dishes response: $response")
-                                            if (ApiClient.getStatusCode() != 200) {
-                                                Toast.makeText(context, "Không gửi được đơn hàng. Vui lòng thử lại.", Toast.LENGTH_SHORT).show()
-                                                isLoading = false
-                                                return@launch
-                                            }
-                                            Helper.orderItems(dataStore = dataStore)
-                                            Toast.makeText(context, "Gọi món thành công!", Toast.LENGTH_LONG).show()
-                                            clickCount = 0
-                                            isLoading = false
-                                        }
-                                    }
-                                } else {
-                                    clickCount = 1
-                                }
-                                lastClickTime = currentTime
-
-                                if (clickCount < 3) {
+                    Button(
+                        onClick = {
+                            val currentTime = System.currentTimeMillis()
+                            if (currentTime - lastClickTime < 1000) {
+                                clickCount++
+                                if (clickCount == 3) {
                                     coroutineScope.launch {
-                                        delay(1000)
-                                        if (clickCount < 3) {
-                                            Toast.makeText(context, "Nhấn đủ 3 lần để gọi món!", Toast.LENGTH_SHORT).show()
+                                        isLoading = true
+                                        val response = ApiClient.dishesOrder(orderId,  Helper.getDishes(context))
+                                        Log.d("Add Dishes", "Add Dishes response: $response")
+                                        if (ApiClient.getStatusCode() != 200) {
+                                            Toast.makeText(context, "Không gửi được đơn hàng. Vui lòng thử lại.", Toast.LENGTH_SHORT).show()
+                                            isLoading = false
+                                            return@launch
                                         }
+                                        Helper.orderItems(dataStore = dataStore)
+                                        Toast.makeText(context, "Gọi món thành công!", Toast.LENGTH_LONG).show()
+                                        clickCount = 0
+                                        isLoading = false
                                     }
                                 }
-                            },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.Red
-                            ),
-                            modifier = Modifier
-                                .wrapContentWidth()
-                                .height(36.dp)
-                                .padding(top = 2.dp),
-                            elevation = ButtonDefaults.buttonElevation(
-                                defaultElevation = 8.dp
-                            )
-                        ) {
-                            Row {
-                                Text(
-                                    text = "Gọi ${itemCountSet + itemCountDrink} món",
-                                    color = colorResource(id = R.color.white),
-                                    modifier = Modifier
-                                        .wrapContentWidth()
-                                )
+                            } else {
+                                clickCount = 1
                             }
+                            lastClickTime = currentTime
+
+                            if (clickCount < 3) {
+                                coroutineScope.launch {
+                                    delay(1000)
+                                    if (clickCount < 3) {
+                                        Toast.makeText(context, "Nhấn đủ 3 lần để gọi món!", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Red
+                        ),
+                        modifier = Modifier
+                            .padding(bottom = 4.dp)
+                            .wrapContentWidth()
+                            .height(36.dp)
+                            .padding(top = 2.dp),
+                        elevation = ButtonDefaults.buttonElevation(
+                            defaultElevation = 8.dp
+                        )
+                    ) {
+                        Row {
+                            Text(
+                                text = "Gọi ${itemCountFood + itemCountDrink} món",
+                                color = colorResource(id = R.color.white),
+                                modifier = Modifier
+                                    .wrapContentWidth()
+                            )
                         }
                     }
+                    Text(
+                        text = "Nhấn 3 lần để gọi món",
+                        modifier = Modifier
+                            .padding(bottom = 4.dp)
+                            .height(14.dp),
+                        style = TextStyle(
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 10.sp
+                        )
+                    )
                 }
             }
         }
@@ -247,7 +281,7 @@ fun FoodMenuScreen(tableCode: String, set: Set) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .padding(start = 16.dp, end = 16.dp)
+                    .padding(horizontal = 16.dp)
             ) {
                 Column(
                     verticalArrangement = Arrangement.Bottom
@@ -275,14 +309,15 @@ fun FoodMenuScreen(tableCode: String, set: Set) {
                             .fillMaxWidth(0.95f)
                             .align(Alignment.CenterHorizontally)
                     )
-                    if (expandSet) {
-                        // Appetizer
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight()
-                                .padding(start = 16.dp, end = 16.dp)
-                        ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .padding(horizontal = 16.dp)
+                            .animateContentSize()
+                    ) {
+                        if (expandSet) {
+                            // Appetizer
                             Row(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
@@ -307,23 +342,21 @@ fun FoodMenuScreen(tableCode: String, set: Set) {
                                 color = Color.Gray
                             )
                             CommonSpaceColumn()
-                            if (expandAppetizer) {
-                                set.details.forEach { food ->
-                                    if (stringResource(id = food.type) == "Appetizer") {
-                                        FoodItem(food = food)
-                                        CommonSpaceColumn()
+                            Column(
+                                modifier = Modifier
+                                    .animateContentSize()
+                            ) {
+                                if (expandAppetizer) {
+                                    set.details.forEach { food ->
+                                        if (stringResource(id = food.type) == "Appetizer") {
+                                            FoodItem(food = food)
+                                            CommonSpaceColumn()
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        // Main Course
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight()
-                                .padding(start = 16.dp, end = 16.dp)
-                        ) {
+                            // Main Course
                             Row(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
@@ -348,23 +381,21 @@ fun FoodMenuScreen(tableCode: String, set: Set) {
                                 color = Color.Gray
                             )
                             CommonSpaceColumn()
-                            if (expandMain) {
-                                set.details.forEach { food ->
-                                    if (stringResource(id = food.type) == "Main") {
-                                        FoodItem(food = food)
-                                        CommonSpaceColumn()
+                            Column(
+                                modifier = Modifier
+                                    .animateContentSize()
+                            ) {
+                                if (expandMain) {
+                                    set.details.forEach { food ->
+                                        if (stringResource(id = food.type) == "Main") {
+                                            FoodItem(food = food)
+                                            CommonSpaceColumn()
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        // Dessert
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight()
-                                .padding(start = 16.dp, end = 16.dp)
-                        ) {
+                            // Dessert
                             Row(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
@@ -389,11 +420,16 @@ fun FoodMenuScreen(tableCode: String, set: Set) {
                                 color = Color.Gray
                             )
                             CommonSpaceColumn()
-                            if (expandDessert) {
-                                set.details.forEach { food ->
-                                    if (stringResource(id = food.type) == "Dessert") {
-                                        FoodItem(food = food)
-                                        CommonSpaceColumn()
+                            Column(
+                                modifier = Modifier
+                                    .animateContentSize()
+                            ) {
+                                if (expandDessert) {
+                                    set.details.forEach { food ->
+                                        if (stringResource(id = food.type) == "Dessert") {
+                                            FoodItem(food = food)
+                                            CommonSpaceColumn()
+                                        }
                                     }
                                 }
                             }
@@ -426,7 +462,9 @@ fun FoodMenuScreen(tableCode: String, set: Set) {
                     )
                     CommonSpaceColumn()
                     Column(
-                        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                        modifier = Modifier
+                            .padding(start = 16.dp, end = 16.dp)
+                            .animateContentSize()
                     ) {
                         if (expandDrink) {
                             set.details.forEach { food ->
@@ -469,6 +507,7 @@ fun FoodMenuScreen(tableCode: String, set: Set) {
     }
 }
 
+@SuppressLint("MemberExtensionConflict")
 @Composable
 fun FoodItem(
     food: Food,
@@ -482,8 +521,8 @@ fun FoodItem(
     val type = stringResource(id = food.type)
     val drinkPrice = stringResource(id = food.shortDescription)
 
-    val itemCountFood by Helper.countDataFood(context, stringResource(food.name), "notOrderYet").collectAsState(initial = 0)
-    val itemCountDrink by Helper.countDataDrink(context, stringResource(food.name), "notOrderYet").collectAsState(initial = 0)
+    val itemCountFood by Helper.countDataFood(context, stringResource(food.name), itemStatus = "notOrderYet").collectAsState(initial = 0)
+    val itemCountDrink by Helper.countDataDrink(context, stringResource(food.name), itemStatus = "notOrderYet").collectAsState(initial = 0)
 
     Card(
         modifier = modifier,
@@ -494,7 +533,7 @@ fun FoodItem(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .animateContentSize()
-                .padding(bottom = 8.dp)
+                .padding(bottom = 10.dp)
         ) {
             Image(
                 painter = painterResource(id = food.image),
@@ -697,25 +736,24 @@ fun FoodItem(
             }
 
             if (expand) {
-                Spacer(modifier = Modifier.height(10.dp))
                 HorizontalDivider(
                     modifier = Modifier
+                        .padding(vertical = 10.dp)
                         .fillMaxWidth(0.65f)
                         .align(Alignment.CenterHorizontally),
                     thickness = 1.dp,
                     color = Color.Gray
                 )
-                Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = stringResource(id = food.description),
-                    modifier = Modifier.padding(start = 6.dp, end = 6.dp, bottom = 6.dp),
+                    modifier = Modifier
+                        .padding(horizontal = 12.dp),
                     style = TextStyle(
                         fontWeight = FontWeight.Normal,
                         fontSize = 16.sp
                     ),
                     textAlign = TextAlign.Justify
                 )
-                Spacer(modifier = Modifier.height(6.dp))
             }
         }
     }

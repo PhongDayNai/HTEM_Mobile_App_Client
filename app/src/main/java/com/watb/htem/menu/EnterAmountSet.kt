@@ -46,13 +46,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
-import com.watb.htem.CartItem
+import com.watb.htem.data.CartItem
 import com.watb.htem.R
-import com.watb.htem.USER_ID
+import com.watb.htem.main.USER_ID
 import com.watb.htem.api.ApiClient
-import com.watb.htem.dataStore
+import com.watb.htem.main.dataStore
 import com.watb.htem.helper.Helper
-import com.watb.htem.userDataStore
+import com.watb.htem.main.userDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -80,14 +80,13 @@ fun EnterNumberPopup(navController: NavController, tableCode: String, setName: S
     val isLoggedIn = remember { mutableStateOf(false) }
     val userId = remember { mutableIntStateOf(0) }
     val buffetId = remember { mutableIntStateOf(0) }
-    var message by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
             isLoggedIn.value = Helper.isLoggedIn(context)
             val preferences = context.userDataStore.data.first()
-            userId.intValue = preferences[USER_ID]!!
+            userId.intValue = preferences[USER_ID] ?: -1
             when (setName) {
                 "Buffet Sashimi Hasu" -> {
                     buffetId.intValue = 1
@@ -200,14 +199,13 @@ fun EnterNumberPopup(navController: NavController, tableCode: String, setName: S
                                                 isLoading = false
                                                 return@launch
                                             }
-                                            message = response?.message ?: response?.error ?: "Order Buffet failed"
                                             if (response?.orderId != null) {
                                                 Helper.saveOrderID(context, response.orderId)
+                                                Helper.setPaidState(context, false)
                                             }
                                             Helper.addToCart(dataStore = dataStore, newItem = item)
                                             Helper.printDataStore(dataStore)
                                             isLoading = false
-//                                            navController.navigate("foodMenu/$tableCode/$setName")
                                             navController.navigate("foodMenu/$setName")
                                         } else {
                                             val response = ApiClient.guessBuffetOrder(buffetId.intValue, tableCode.toInt(), number.toInt(), intPrice * number.toInt())
@@ -217,15 +215,17 @@ fun EnterNumberPopup(navController: NavController, tableCode: String, setName: S
                                                 isLoading = false
                                                 return@launch
                                             }
-                                            message = response?.message ?: response?.error ?: "Order failed"
                                             if (response?.orderId != null) {
                                                 Helper.saveOrderID(context, response.orderId)
                                             }
                                             Helper.addToCart(dataStore = dataStore, newItem = item)
                                             Helper.printDataStore(dataStore)
                                             isLoading = false
-//                                            navController.navigate("foodMenu/$tableCode/$setName")
-                                            navController.navigate("foodMenu/$setName")
+                                            navController.navigate("foodMenu/$setName") {
+                                                popUpTo("foodMenu/$setName") {
+                                                    inclusive = false
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -266,7 +266,6 @@ fun EnterNumberPopup(navController: NavController, tableCode: String, setName: S
                                         isLoading = false
                                         return@launch
                                     }
-                                    message = response?.message ?: response?.error ?: "Order failed"
                                     if (response?.orderId != null) {
                                         Helper.saveOrderID(context, response.orderId)
                                     }
