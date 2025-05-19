@@ -1,5 +1,6 @@
 package com.watb.htem.payment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -26,6 +27,7 @@ class VietQR {
     private var additionalDataFieldTemplate = ""
     private var crc = ""
 
+    @SuppressLint("MemberExtensionConflict")
     private fun convertLength(str: String): String {
         val num = str.length
         return if (num < 10) "0$num" else num.toString()
@@ -37,6 +39,7 @@ class VietQR {
         return this
     }
 
+    @SuppressLint("MemberExtensionConflict")
     fun setBeneficiaryOrganization(acquierID : String, consumerID : String): VietQR {
         val acquierLength = convertLength(acquierID)
         val consumerLength = convertLength(consumerID)
@@ -54,6 +57,7 @@ class VietQR {
         return this
     }
 
+    @SuppressLint("MemberExtensionConflict")
     fun setAdditionalDataFieldTemplate(content: String): VietQR {
         val contentLength = convertLength(content)
         val additionalDataFieldTemplateLength = (contentLength.toInt() + 4).toString()
@@ -117,6 +121,7 @@ class VietQR {
     }
 }
 
+@SuppressLint("MemberExtensionConflict")
 fun generateQRCodeImage(qrCodeString: String, context: Context): Bitmap? {
     val qrCodeWriter = QRCodeWriter()
     try {
