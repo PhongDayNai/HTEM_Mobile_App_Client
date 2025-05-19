@@ -4,9 +4,14 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -16,7 +21,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -26,13 +33,13 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.watb.htem.ORDER_ID
+import com.watb.htem.main.ORDER_ID
 import com.watb.htem.R
-import com.watb.htem.USER_ID
+import com.watb.htem.main.USER_ID
 import com.watb.htem.api.ApiClient
-import com.watb.htem.dataStore
+import com.watb.htem.main.dataStore
 import com.watb.htem.helper.Helper
-import com.watb.htem.userDataStore
+import com.watb.htem.main.userDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -62,6 +69,7 @@ fun QRCodeScreen(navController: NavHostController, totalBill: Int, pointsUsedNum
         modifier = Modifier
             .fillMaxSize()
             .background(color = colorResource(id = R.color.white))
+            .safeDrawingPadding()
     ) {
         val (qrRef, nameRef, stkRef, amountRef, btnRef) = createRefs()
         val verticalGuideline = createGuidelineFromTop(0.275f)
@@ -112,23 +120,38 @@ fun QRCodeScreen(navController: NavHostController, totalBill: Int, pointsUsedNum
                             usingPoints.intValue = 1
                         }
                         val response = ApiClient.paymentUser(userId = userId.intValue, orderId = orderId.intValue, usingPoints = usingPoints.intValue, pointsUsedNumber = pointsUsedNumber, amount = totalBill, paymentMethod = "banking")
-                        if (ApiClient.getStatusCode() != 200) {
+                        if (ApiClient.getStatusCode() != 201) {
                             Toast.makeText(context, "Thanh toán không thành công. Vui lòng thử lại.", Toast.LENGTH_SHORT).show()
                             isLoading = false
                             return@launch
-                        }
-                        if (response != null) {
-//                            navController.navigate("")
+                        } else {
+                            if (response != null) {
+                                if (isLoggedIn.value) Helper.saveUserPoints(context, response.nowPoints ?: 0)
+                                Helper.setPaidState(context, true)
+                                Helper.clearDataStore(context.dataStore)
+                                navController.navigate("paymentSuccessful") {
+                                    popUpTo("paymentSuccessful") {
+                                        inclusive = true
+                                    }
+                                }
+                            }
                         }
                     } else {
                         val response = ApiClient.paymentGuess(orderId = orderId.intValue, amount = totalBill, paymentMethod = "banking")
-                        if (ApiClient.getStatusCode() != 200) {
+                        if (ApiClient.getStatusCode() != 201) {
                             Toast.makeText(context, "Thanh toán không thành công. Vui lòng thử lại.", Toast.LENGTH_SHORT).show()
                             isLoading = false
                             return@launch
-                        }
-                        if (response != null) {
-//                            navController.navigate("")
+                        } else {
+                            if (response != null) {
+                                Helper.setPaidState(context, true)
+                                Helper.clearDataStore(context.dataStore)
+                                navController.navigate("paymentSuccessful") {
+                                    popUpTo("paymentSuccessful") {
+                                        inclusive = true
+                                    }
+                                }
+                            }
                         }
                     }
                     isLoading = false
@@ -141,6 +164,29 @@ fun QRCodeScreen(navController: NavHostController, totalBill: Int, pointsUsedNum
             }
         ) {
             Text(text = "Hoàn thành")
+        }
+        if (isLoading) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                color = Color.Black.copy(alpha = 0.5f)
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.size(200.dp)
+                    ) {
+                        CircularProgressIndicator(
+                            color = Color.Red,
+                            modifier = Modifier.size(150.dp)
+                        )
+                    }
+                }
+            }
         }
     }
 }
