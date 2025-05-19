@@ -40,19 +40,22 @@ android {
 }
 
 dependencies {
-    implementation("androidx.navigation:navigation-compose:2.8.4")
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0")
-    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.constraintlayout.compose)
+    implementation(libs.androidx.datastore.preferences)
 
-    implementation("io.coil-kt:coil-compose:2.5.0")
-    implementation("io.coil-kt:coil-svg:2.5.0")
+    implementation("io.socket:socket.io-client:2.0.0") {
+        exclude(group = "org.json", module = "json")
+    }
+    implementation(libs.coil.compose)
+    implementation(libs.coil.svg)
 
-    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
-    implementation("com.google.zxing:core:3.4.1")
-    implementation("com.google.zxing:javase:3.4.1")
+    implementation(libs.zxing.android.embedded)
+    implementation(libs.core)
+    implementation(libs.javase)
 
-    implementation("com.google.code.gson:gson:2.10.1")
-    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation(libs.gson)
+    implementation(libs.okhttp)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
