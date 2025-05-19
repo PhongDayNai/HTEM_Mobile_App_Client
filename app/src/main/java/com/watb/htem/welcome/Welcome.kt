@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -51,30 +52,26 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.first
-import com.watb.htem.FULL_NAME
+import com.watb.htem.main.FULL_NAME
 import com.watb.htem.R
-import com.watb.htem.USER_ID
+import com.watb.htem.main.USER_ID
 import com.watb.htem.account.ProfileScreen
-import com.watb.htem.account.SignInScreen
 import com.watb.htem.api.ApiClient
 import com.watb.htem.api.Constant
 import com.watb.htem.helper.Helper
-import com.watb.htem.userDataStore
+import com.watb.htem.main.userDataStore
 import kotlinx.coroutines.launch
 
 @Preview
 @Composable
 fun WelcomePreview() {
-    val navController = rememberNavController()
+//    val navController = rememberNavController()
 //    WelcomeScreen(navController)
-    SignInScreen(navController)
 }
 
 @Composable
 fun WelcomeScreen(navController: NavHostController) {
-    var showDialog by remember { mutableStateOf(true) }
     val context = LocalContext.current
     val userDataStore = context.userDataStore
     val isLoggedIn = remember { mutableStateOf(false) }
@@ -83,18 +80,28 @@ fun WelcomeScreen(navController: NavHostController) {
     var showProfile by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(false) }
     val userId = remember { mutableIntStateOf(0) }
+    var isFinish by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        coroutineScope.launch {
-            isLoggedIn.value = Helper.isLoggedIn(context)
+        isLoggedIn.value = Helper.isLoggedIn(context)
+        if (isLoggedIn.value) {
             val preferences = context.userDataStore.data.first()
             fullName.value = preferences[FULL_NAME] ?: ""
             userId.intValue = preferences[USER_ID] ?: 0
+            val response = ApiClient.getUserPoints(userId.intValue)
+            Log.d("UserPoints", response.toString())
+            if (ApiClient.getStatusCode() == 200) {
+                if (response != null) {
+                    Helper.saveUserPoints(context, response.points ?: 0)
+                    isFinish = true
+                }
+            }
         }
     }
 
     ConstraintLayout(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
     ) {
         val horizontalGuideline = createGuidelineFromTop(0.76f)
         val horizontalGuideline2 = createGuidelineFromTop(0.275f)
@@ -116,7 +123,7 @@ fun WelcomeScreen(navController: NavHostController) {
             fontFamily = FontFamily(Font(resId = R.font.svn_shikamaru)),
             letterSpacing = 3.sp,
             style = TextStyle(
-                shadow = androidx.compose.ui.graphics.Shadow(
+                shadow = Shadow(
                     color = Color.Black,
                     offset = Offset(4f, 4f),
                     blurRadius = 4f
@@ -148,7 +155,7 @@ fun WelcomeScreen(navController: NavHostController) {
                     textAlign = TextAlign.Center,
                     fontFamily = FontFamily(Font(resId = R.font.svn_shikamaru)),
                     style = TextStyle(
-                        shadow = androidx.compose.ui.graphics.Shadow(
+                        shadow = Shadow(
                             color = Color.Black,
                             offset = Offset(2f, 2f),
                             blurRadius = 4f
@@ -166,19 +173,24 @@ fun WelcomeScreen(navController: NavHostController) {
                             .size(28.dp)
                             .padding(end = 8.dp)
                             .clickable {
-                                coroutineScope.launch {
+                                if (isFinish) showProfile = true
+                                else {
                                     isLoading = true
-                                    val response = ApiClient.getUserPoints(userId.intValue)
-                                    if (ApiClient.getStatusCode() != 200) {
-                                        Toast.makeText(context, "Không cập nhật được điểm. Vui lòng thử lại.", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, "Vui lòng đợi...", Toast.LENGTH_SHORT).show()
+                                    coroutineScope.launch {
+                                        val response = ApiClient.getUserPoints(userId.intValue)
+                                        Log.d("UserPoints", response.toString())
+                                        if (ApiClient.getStatusCode() == 200) {
+                                            if (response != null) {
+                                                Helper.saveUserPoints(context, response.points ?: 0)
+                                                isFinish = true
+                                                showProfile = true
+                                            }
+                                        } else {
+                                            Toast.makeText(context, "Request Failed", Toast.LENGTH_SHORT).show()
+                                        }
                                         isLoading = false
-                                        return@launch // Dừng thực hiện tiếp
                                     }
-                                    if (response != null) {
-                                        Helper.saveUserPoints(context, response)
-                                        showProfile = true
-                                    }
-                                    isLoading = false
                                 }
                             }
                     )
@@ -190,7 +202,7 @@ fun WelcomeScreen(navController: NavHostController) {
                         textAlign = TextAlign.Center,
                         fontFamily = FontFamily(Font(resId = R.font.svn_shikamaru)),
                         style = TextStyle(
-                            shadow = androidx.compose.ui.graphics.Shadow(
+                            shadow = Shadow(
                                 color = Color.Black,
                                 offset = Offset(2f, 2f),
                                 blurRadius = 4f
@@ -237,7 +249,7 @@ fun WelcomeScreen(navController: NavHostController) {
                         text = "Đăng xuất",
                         color = colorResource(id = R.color.light_blue),
                         style = TextStyle(
-                            shadow = androidx.compose.ui.graphics.Shadow(
+                            shadow = Shadow(
                                 color = Color.Black,
                                 offset = Offset(2f, 2f),
                                 blurRadius = 4f
@@ -302,11 +314,7 @@ fun WelcomeScreen(navController: NavHostController) {
             }
             TextButton(
                 onClick = {
-                    navController.navigate("qrScanner") {
-//                    popUpTo("home") {
-//                        inclusive = true
-//                    }
-                    }
+                    navController.navigate("qrScanner")
                 },
                 modifier = Modifier.constrainAs(guessRef) {
                     top.linkTo(buttonRef.bottom, margin = 10.dp)
@@ -325,9 +333,6 @@ fun WelcomeScreen(navController: NavHostController) {
             }
         }
 
-        if (showDialog) {
-            EnterMainLink(onDismiss = { showDialog = false })
-        }
         ProfileScreen(navController, showProfile, onDismiss = { showProfile = false })
     }
 }
