@@ -1,4 +1,4 @@
-package com.watb.htem
+package com.watb.htem.data
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -129,4 +129,35 @@ data class PaymentGuessRequest(
 data class PaymentGuessResponse(
     val paymentId: Int? = null,
     val error: String? = null
+)
+
+data class GetServedDishesRequest(
+    val orderId: Int
+)
+
+data class GetServedDishesResponse(
+    val servedDishes: List<ServedDish>
+)
+
+data class ServedDish(
+    val DishName: String,
+    val ServedQuantity: Int
+)
+
+data class CallStaffRequest(
+    val tableId: Int,
+)
+
+data class CallStaffResponse(
+    val isSuccess: Boolean? = null,
+    val message: String? = null
+)
+
+data class CheckPaymentStateRequest(
+    val orderId: Int
+)
+
+data class CheckPaymentStateResponse(
+    val paymentState: String? = null,
+    val message: String? = null
 )
