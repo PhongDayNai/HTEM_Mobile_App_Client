@@ -1,42 +1,24 @@
 package com.watb.htem.cart
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,17 +32,36 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.watb.htem.CartItem
-import com.watb.htem.CommonSpaceColumn
 import com.watb.htem.R
-import com.watb.htem.dataStore
 import com.watb.htem.helper.Helper
-import com.watb.htem.ui.theme.HTEMTheme
 import kotlinx.coroutines.launch
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.tooling.preview.Preview
+import com.watb.htem.data.CartItem
+import com.watb.htem.main.CommonSpaceColumn
+import com.watb.htem.main.dataStore
+import com.watb.htem.ui.theme.HTEMTheme
 
 @Composable
 fun ShoppingCartBottomSheetScreen(showDialog: Boolean, onDismiss: () -> Unit) {
@@ -88,8 +89,8 @@ fun ShoppingCartBottomSheet(cartItems: MutableState<List<CartItem>>, onDismiss: 
     // Lấy số lượng món chưa đặt hàng từ DataStore
     val itemCountOrderedFood by Helper.countDataFood(context, "ordered").collectAsState(initial = 0)
     val itemCountOrderedDrink by Helper.countDataDrink(context, "ordered").collectAsState(initial = 0)
-    val itemCountServedFood by Helper.countDataFood(context, "served").collectAsState(initial = 0)
-    val itemCountServedDrink by Helper.countDataDrink(context, "served").collectAsState(initial = 0)
+    val itemCountServedFood by Helper.getAllServed(context, "notDrink").collectAsState(initial = 0)
+    val itemCountServedDrink by Helper.getAllServed(context, "drink").collectAsState(initial = 0)
 
     ModalBottomSheet(
         onDismissRequest = onDismiss
@@ -182,7 +183,7 @@ fun ShoppingCartBottomSheet(cartItems: MutableState<List<CartItem>>, onDismiss: 
                                         )
                                     }
                                     cartItems.value.forEach { item ->
-                                        if (item.type == "Appetizer" && item.status == "ordered") {
+                                        if (item.type == "Appetizer") {
                                             CartItemDetail(cartItem = item)
                                         }
                                     }
@@ -250,21 +251,20 @@ fun ShoppingCartBottomSheet(cartItems: MutableState<List<CartItem>>, onDismiss: 
                                     }
                                     Spacer(modifier = Modifier.weight(1f))
                                     Text(
-                                        text = " Còn ${itemCountOrderedFood - itemCountServedFood}... ",
+                                        text = "Còn ${itemCountOrderedFood - itemCountServedFood}...",
                                         fontSize = 16.sp,
                                         fontWeight = FontWeight.Normal,
                                         color = Color.White,
                                         modifier = Modifier
                                             .wrapContentSize()
                                             .background(
-                                                Color.Green,
+                                                Color(0xFF27A97A),
                                                 shape = RoundedCornerShape(16.dp)
                                             )
+                                            .padding(horizontal = 6.dp)
                                     )
                                     IconButton(
-                                        onClick = {
-                                            expendSet = !expendSet
-                                        }
+                                        onClick = { expendSet = !expendSet }
                                     ) {
                                         Icon(
                                             if (expendSet) Icons.Default.KeyboardArrowDown else Icons.AutoMirrored.Filled.KeyboardArrowLeft,
@@ -298,8 +298,6 @@ fun ShoppingCartBottomSheet(cartItems: MutableState<List<CartItem>>, onDismiss: 
                                     Text(" ")
                                     Text(" ")
                                 }
-//                                if (itemCountDrink != 0) { expendDrink = true }
-//                                else { expendDrink = false }
                                 if (expendDrink) {
                                     cartItems.value.forEach { item ->
                                         if (item.type == "Drink") {
@@ -361,16 +359,17 @@ fun ShoppingCartBottomSheet(cartItems: MutableState<List<CartItem>>, onDismiss: 
                                     }
                                     Spacer(modifier = Modifier.weight(1f))
                                     Text(
-                                        text = " Còn ${itemCountOrderedDrink - itemCountServedDrink}... ",
+                                        text = "Còn ${itemCountOrderedDrink - itemCountServedDrink}...",
                                         fontSize = 16.sp,
                                         fontWeight = FontWeight.Normal,
                                         color = Color.White,
                                         modifier = Modifier
                                             .wrapContentSize()
                                             .background(
-                                                Color.Green,
+                                                Color(0xFF27A97A),
                                                 shape = RoundedCornerShape(16.dp)
                                             )
+                                            .padding(horizontal = 6.dp)
                                     )
 
                                     IconButton(
@@ -403,46 +402,6 @@ fun ShoppingCartBottomSheet(cartItems: MutableState<List<CartItem>>, onDismiss: 
                         color = Color.Blue
                     )
                 }
-//                TextButton(
-//                    onClick = {
-//                        val currentTime = System.currentTimeMillis()
-//                        if (currentTime - lastClickTime < 1000) {
-//                            clickCount++
-//                            if (clickCount == 3) {
-//                                CoroutineScope(Dispatchers.IO).launch {
-//                                    orderItems(dataStore = dataStore)
-//                                }
-//                                Toast.makeText(context, "Gọi món thành công!", Toast.LENGTH_LONG).show()
-//                                clickCount = 0
-//                                onDismiss()
-//                            }
-//                        } else {
-//                            clickCount = 1
-//                        }
-//                        lastClickTime = currentTime
-//
-//                        if (clickCount < 3) {
-//                            coroutineScope.launch {
-//                                delay(1000)
-//                                if (clickCount < 3) {
-//                                    Toast.makeText(context, "Nhấn đủ 3 lần để gọi món!", Toast.LENGTH_LONG).show()
-//                                }
-//                            }
-//                        }
-//                    },
-//                    modifier = Modifier
-//                        .height(50.dp)
-//                        .background(Color.Transparent, shape = RoundedCornerShape(2.dp))
-//                        .constrainAs(orderButtonRef) {
-//                            bottom.linkTo(parent.bottom)
-//                            end.linkTo(parent.end)
-//                        }
-//                ) {
-//                    Text(
-//                        text = "Order",
-//                        color = Color.Red
-//                    )
-//                }
             }
         }
     }
@@ -482,10 +441,10 @@ fun CartItemDetail(
     cartItem: CartItem
 ) {
     val context = LocalContext.current
-    val itemCountOrderedFood by Helper.countDataFood(context, cartItem.name, "ordered").collectAsState(initial = 0)
-    val itemCountOrderedDrink by Helper.countDataDrink(context, cartItem.name, "ordered").collectAsState(initial = 0)
-    val itemCountServedFood by Helper.countDataFood(context, cartItem.name, "served").collectAsState(initial = 0)
-    val itemCountServedDrink by Helper.countDataDrink(context, cartItem.name, "served").collectAsState(initial = 0)
+    val itemCountOrderedFood by Helper.countDataFood(context, cartItem.name, itemStatus = "ordered", quantityType = "ordered").collectAsState(initial = 0)
+//    val itemCountOrderedDrink by Helper.countDataDrink(context, cartItem.name, "ordered").collectAsState(initial = 0)
+    val itemCountServedFood by Helper.countDataFood(context, cartItem.name, itemStatus = "ordered", quantityType = "served").collectAsState(initial = 0)
+//    val itemCountServedDrink by Helper.countDataDrink(context, cartItem.name, "served").collectAsState(initial = 0)
 
     Column(
         modifier = Modifier
@@ -498,11 +457,11 @@ fun CartItemDetail(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.height(32.dp)
         ) {
-            if (itemCountServedFood != itemCountOrderedFood || itemCountServedDrink != itemCountOrderedDrink) {
+            if (itemCountOrderedFood != 0) {
                 Box(
                     modifier = Modifier
                         .size(4.dp)
-                        .background(color = Color.Red, shape = RoundedCornerShape(4.dp))
+                        .background(color = if (itemCountOrderedFood != itemCountServedFood) Color.Red else Color.Green, shape = CircleShape)
                 )
             }
             Text(
@@ -521,33 +480,28 @@ fun CartItemDetail(
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            if (cartItem.type != "Drink") {
-                Text(
-                    text = "$itemCountServedFood/$itemCountOrderedFood",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal,
-                    modifier = Modifier.padding(end = 8.dp)
-                )
-            } else {
-                Text(
-                    text = "$itemCountServedDrink/$itemCountOrderedDrink",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal,
-                    modifier = Modifier.padding(end = 8.dp)
-                )
-            }
-//            IconButton(
-//                onClick = {},
-//                modifier = Modifier
-//                    .size(36.dp)
-//                    .padding(start = 12.dp)
-//            ) {
-//                Image(
-//                    painter = painterResource(id = R.drawable.tick_outline),
-//                    contentDescription = "Tick",
-//                    modifier = Modifier.size(16.dp)
+//            if (cartItem.type != "Drink") {
+//                Text(
+//                    text = "$itemCountServedFood/$itemCountOrderedFood",
+//                    fontSize = 14.sp,
+//                    fontWeight = FontWeight.Normal,
+//                    modifier = Modifier.padding(end = 8.dp)
+//                )
+//            } else {
+//                Text(
+//                    text = "$itemCountServedDrink/$itemCountOrderedDrink",
+//                    fontSize = 14.sp,
+//                    fontWeight = FontWeight.Normal,
+//                    modifier = Modifier.padding(end = 8.dp)
 //                )
 //            }
+
+            Text(
+                text = "$itemCountServedFood/$itemCountOrderedFood",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Normal,
+                modifier = Modifier.padding(end = 8.dp)
+            )
         }
         HorizontalDivider(
             modifier = Modifier
